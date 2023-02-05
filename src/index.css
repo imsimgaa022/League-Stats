@@ -207,7 +207,6 @@ h1 {
 .progrress-size .ant-progress-steps-item{
   width: 25px !important;
   height: 12.5px !important;
-  /* transform: skew(-10deg, -10deg); */
 }
 
 .flex-center {
