@@ -1,10 +1,41 @@
-import { Col, Row } from "antd";
+import { Button, Col, Form, Input, Row } from "antd";
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { updateProfile } from "../Service";
 
 const Profile = () => {
+  const accessToken = localStorage.getItem("accessToken");
   const location = useLocation();
   const user = location?.state;
+  console.log(user);
+
+  const handleFinish = (values) => {
+    const updatedUser = {
+      username: values?.username,
+      email: values?.email,
+      password: values?.password,
+      summoner_name: values?.summoner_name
+    }
+
+    fetch(`http://localhost:3000/users/${user?.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedUser)
+    })
+    .then(response => response.json())
+    .then(data => localStorage.setItem("userData", JSON.stringify(data)))
+    .then(localStorage.removeItem("games"))
+    .catch(error => console.error(error))
+  }
+
+  const initialValues = {
+    username: user?.username,
+    email: user?.email,
+    summoner_name: user?.summoner_name,
+  }
+
   return (
     <>
       <div
@@ -34,7 +65,25 @@ const Profile = () => {
               </h2>
             </div>
           </Col>
-          <Col span={12}></Col>
+          <Col span={12} className="flex-center">
+            <Form initialValues={initialValues} onFinish={handleFinish}>
+              <Form.Item name="username">
+                <Input placeholder="Username"/>
+              </Form.Item>
+              <Form.Item name="email">
+                <Input placeholder="email"/>
+              </Form.Item>
+              <Form.Item name="summoner_name">
+                <Input placeholder="Summoner Name"/>
+              </Form.Item>
+              <Form.Item required name="password">
+                <Input required type="password" placeholder="password"/>
+              </Form.Item>
+              <Button type="primary" htmlType="submit">
+                Update
+              </Button>
+            </Form>
+          </Col>
         </Row>
       </div>
     </>

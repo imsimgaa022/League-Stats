@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, Tabs } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
+
 
 const NavBar = () => {
   const [logoutModalVisible, setLogOutModalVisible] = useState(false);
@@ -8,20 +9,24 @@ const NavBar = () => {
   const handleLogOut = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userData");
+    localStorage.clear();
     navigate("/");
   };
   let user = JSON.parse(localStorage.getItem("userData"));
-//   console.log("navbar user", user)
 
   const onChange = (key) => {
-      console.log(key)
-      navigate(`/home/${key}`, {state:user});
+    console.log(key)
+      if (key == "about") {
+        console.log("jest")
+        navigate("/");
+      } else {
+        navigate(`/home/${key}`, {state:user});
+      }
   };
-
   const items = [
     {
-    key: "about",
-    label: `About`,
+      key: "about",
+      label: `About`,
     },
     {
       key: "summoner",
@@ -54,25 +59,13 @@ const NavBar = () => {
           className="custom-tabs michroma-font"
           style={{ marginBottom: "0px" }}
           tabBarGutter={120}
-          tabBarExtraContent={
-            <Button
-              className="michroma-font"
-              onClick={() => setLogOutModalVisible(true)}
-              style={{
-                marginRight: "10px",
-                backgroundColor: "purple",
-                color: "white",
-              }}
-            >
-              Log Out
-            </Button>
-          }
           centered
           size="large"
-          defaultActiveKey="about"
+          defaultActiveKey="summoner"
           items={items}
         />
       </div>
+      <Outlet/>
     </>
   );
 };

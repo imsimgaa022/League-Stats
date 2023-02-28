@@ -39,7 +39,6 @@ const Champions = () => {
     filteredItems = paginatedReuslts?.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    console.log(filteredItems);
   }
 
   if (searchTag?.length) {
@@ -61,7 +60,6 @@ const Champions = () => {
 
   const handleSearch = (e) => {
     setSearchTag([]);
-    console.log(e?.target?.value)
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
@@ -83,6 +81,7 @@ const Champions = () => {
   };
 
   const handleTagClick = (value) => {
+    setCurrentPage(1);
     if (searchTag.includes(value)) {
       setSearchTag(searchTag.filter((val) => val !== value));
     } else {
@@ -143,13 +142,17 @@ const Champions = () => {
             </Button>
             <Tour open={open} onClose={() => setOpen(false)} steps={steps} />
             <Row style={{background:"white", margin:"0% 3% 3% 3%"}}>
-              <Col style={{padding:"0% 1%"}} className="flex-center" ref={ref1} span={3}>{!searchTag?.[0]?.length &&<Input prefix={<SearchOutlined/>} placeholder="Search" onChange={handleSearch}/>}</Col>
+              <Col style={{padding:"0% 1%"}} className="flex-center" ref={ref1} span={3}>
+                {!searchTag?.[0]?.length &&<Input prefix={<SearchOutlined/>} placeholder="Search" onChange={handleSearch}/>}
+              </Col>
               <Col offset={4} ref={ref3}><Tabs className="custom-tabs michroma-font" defaultActiveKey="" items={items} onChange={onChange} /></Col>
             </Row>
             <Row>
               {displayedItems?.map((champion, index) => {
+                console.log(champion)
                 return (
                   <Col
+                    key={index}
                     className="michroma-font color-white image-animation"
                     span={4}
                     style={{
@@ -163,10 +166,10 @@ const Champions = () => {
                     <img
                       style={{cursor:"pointer"}}
                       ref={index === 1 ? ref2 : null}
-                      onClick={() => handleClick(champion.name.replace(/\s/g, ''))}
+                      onClick={() => handleClick(champion?.image?.full.replace('.png', ''))}
                       width={"80%"}
                       alt={champion.name}
-                      src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion?.name?.replace(/\s/g, '')}_0.jpg`}
+                      src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion?.image?.full.replace('.png', '_0.jpg')}`}
                     />
                     <div className="name-div" style={{width:"80%", background:"#071d25", position:"absolute", bottom:"5%"}}>
                       <p className="champ-name" style={{paddingLeft: "6%"}}>{champion.name}</p>

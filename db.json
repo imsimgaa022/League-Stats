@@ -82,6 +82,48 @@
       "username": "salo",
       "summoner_name": "salo123",
       "id": 12
+    },
+    {
+      "username": "simga",
+      "email": "imsimgaa022@gmail.com",
+      "password": "$2a$10$nzbWocVD.UJAW35MJhAqv.PYftby2u.z/tI/qeuDMcbnCrnF9U9IW",
+      "summoner_name": "Jhìntonic",
+      "id": 13
+    },
+    {
+      "email": "glida@gmail.com",
+      "password": "$2a$10$69V8gFARSG.WgdP66GKFBenGS3xgkXHc9ppGrQqpcmBtXkOVenSti",
+      "username": "glideman",
+      "summoner_name": "Dr GLIDE man",
+      "id": 14
+    },
+    {
+      "email": "gale123@gmail.com",
+      "password": "$2a$10$5bPMKkjmuQ/yYTspEOYGxuFKN4SKHEOVfMoFcbPe3DznlGKvs2XW6",
+      "username": "gale",
+      "summoner_name": "kapazakameru",
+      "id": 15
+    },
+    {
+      "email": "glida022@gmail.com",
+      "password": "$2a$10$HKKL67UcrQfC4Q2i3um9/.QRngXfwSGk67S2B4ej1WXj2HBVlIS8K",
+      "username": "glida022",
+      "summoner_name": "Dr GLIDE man",
+      "id": 16
+    },
+    {
+      "email": "maksa022@gmail.com",
+      "password": "$2a$10$XZhLrr/my4OR5j6Yd5vwO.b.u0F3hll2tdp7.Y9qZ6lCybAr3OOWu",
+      "username": "asdjasidj",
+      "summoner_name": "kapazakameru",
+      "id": 17
+    },
+    {
+      "username": "djuro",
+      "email": "djuro_senseri@gmail.com",
+      "password": "$2a$10$sIxi2pXt7BLd0Yl0BPYHGuW7YXKTBbCvu5tBZWYb/Z17JEu.yTSEO",
+      "summoner_name": "FindingNemoo",
+      "id": 18
     }
   ]
 }

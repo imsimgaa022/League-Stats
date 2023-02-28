@@ -23,7 +23,7 @@ const HomePage = () => {
     {
       key: "summoner",
       label: `SUMMONER`,
-      children: <SummonerInfo />,
+      children: <SummonerInfo user={user}/>,
     },
     {
       key: "about",

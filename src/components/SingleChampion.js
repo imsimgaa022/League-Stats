@@ -14,7 +14,7 @@ const SingleChampion = () => {
 
   useEffect(()=> {
     setActiveSpell(champion?.[0]?.spells?.[0]);
-    setActiveDot(champion?.[0]?.spells?.indexOf(activeSpell));
+    // setActiveDot(champion?.[0]?.spells?.indexOf(activeSpell));
   }, [champion])
 
   useEffect(() => {
@@ -37,6 +37,7 @@ const SingleChampion = () => {
 
   useEffect(()=>{
     setActiveDot(champion?.[0]?.spells?.indexOf(activeSpell));
+    // eslint-disable-next-line
   }, [activeSpell])
 
   const setKeyNumber = (key) => {
@@ -67,9 +68,13 @@ const SingleChampion = () => {
       case 3:
         spellTag = "R";
         break;
+      default:
+        break;
     }
     return spellTag;
   }
+
+  console.log(champion?.[0])
 
   return (
     <>
@@ -77,24 +82,17 @@ const SingleChampion = () => {
         <>
           <Row justify="center">
           <Button className="champ-button" onClick={() => navigate("/home/champions")}>Champion list</Button>
-            <div class="container-image" style={{ position: "relative" }}>
+            <div className="container-image" style={{ position: "relative" }}>
               <img
                 alt="name"
-                src={`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion[0].name.replace(
-                  /\s/g,
-                  ""
-                )}_0.jpg`}
-                class="foreground-image"
+                src={`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion[0].image?.full.replace('.png', '_0.jpg')}`}
+                className="foreground-image"
               />
             </div>
             <div
-              class="background-image"
+              className="background-image"
               style={{
-                background: `url("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion[0].name.replace(
-                  /\s/g,
-                  ""
-                )}_0.jpg")`,
-              }}
+                background: `url("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion[0].image?.full.replace('.png', '_0.jpg')}")`}}
             ></div>
             <div className="container michroma-font color-white" style={{position:"absolute", bottom:"0%"}}>
               <h1 className="title">{champion?.[0]?.name}</h1>
@@ -132,14 +130,14 @@ const SingleChampion = () => {
               <Col span={12}><h2 className="color-white abilities-header">Abilities</h2>
               <div className="flex-center">
               <img style={{cursor:"pointer", margin:"0 auto"}} className={`${champion?.[0]?.passive?.["name"] === activeSpell?.["name"] && "active-spell"} spell-hover`} alt="spell" onClick={()=>handleSpellClick(champion?.[0]?.passive)} src={`/images/passive/${champion?.[0]?.passive?.image?.full}`}/>
-              {champion?.[0]?.spells?.map((spell)=>{
+              {champion?.[0]?.spells?.map((spell, index)=>{
                 return (
-                    <img style={{cursor:"pointer", margin:"0 auto"}} className={`${spell?.["name"] === activeSpell?.["name"] && "active-spell"} spell-hover`} alt="spell" onClick={()=>handleSpellClick(spell)} src={`/images/spell/${spell?.image?.full}`}/>
+                    <img key={index} style={{cursor:"pointer", margin:"0 auto"}} className={`${spell?.["name"] === activeSpell?.["name"] && "active-spell"} spell-hover`} alt="spell" onClick={()=>handleSpellClick(spell)} src={`/images/spell/${spell?.image?.full}`}/>
                 )
               })}
               </div>
               <div>
-                <Steps size="small" progressDot style={{marginTop:"10%"}}>
+                <Steps responsive={true} size="small" progressDot style={{marginTop:"10%"}}>
                   <Step status={activeDot === -1 ? "process" : "wait"}/>
                   <Step status={activeDot === 0 ? "process" : "wait"} />
                   <Step status={activeDot === 1 ? "process" : "wait"} />
@@ -169,9 +167,9 @@ const SingleChampion = () => {
               <Col className="flex-center lore-desc" style={{flexDirection:"column", justifyContent:"start"}} span={12}>
                 <h3>Ally tips</h3>
                 <ul className="lore-desc">
-                  {champion?.[0]?.allytips?.map((tip)=>{
+                  {champion?.[0]?.allytips?.map((tip, index)=>{
                     return (
-                      <li className="lore-desc" style={{paddingBottom:"2%"}}>
+                      <li key={index} className="lore-desc" style={{paddingBottom:"2%"}}>
                         {tip}
                       </li>
                     )
@@ -181,9 +179,9 @@ const SingleChampion = () => {
               <Col className="flex-center lore-desc" style={{flexDirection:"column", justifyContent:"start"}} span={12}>
                 <h3>Enemy tips</h3>
                 <ul className="lore-desc">
-                  {champion?.[0]?.enemytips?.map((tip)=>{
+                  {champion?.[0]?.enemytips?.map((tip, index)=>{
                     return (
-                      <li className="lore-desc" style={{paddingBottom:"2%"}}>
+                      <li key={index} className="lore-desc" style={{paddingBottom:"2%"}}>
                         {tip}
                       </li>
                     )

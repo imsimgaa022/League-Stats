@@ -11,3 +11,7 @@ export const login = (data) => {
 export const register = (data) => {
   return instance.post('/register', data);
 };
+
+export const updateProfile = (id, data) => {
+  return instance.put(`/users/${id}`, data);
+}

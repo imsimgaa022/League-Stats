@@ -8,59 +8,51 @@ import PublicRoute from "./private-route/PublicRoute";
 import Profile from "./components/Profile";
 import Champions from "./components/Champions";
 import SingleChampion from "./components/SingleChampion";
+import SummonerInfo from "./components/SummonerInfo";
 
 function App() {
   return (
     <div>
-      {/* <AuthPage /> */}
-      <PrivateRoute>
+      {/* <PrivateRoute>
         <NavBar />
-      </PrivateRoute>
+      </PrivateRoute> */}
       <Routes>
-        <Route
-          path="*"
-          element={
-            <PublicRoute>
-              <AuthPage />
-            </PublicRoute>
-          }
-        />
-        <Route path="/home">
+        <Route path="/" element={<About/>}/>
+        <Route path="/home" element={<NavBar/>}>
           <Route index={true}/>
           <Route
             index={false}
             path="profile"
             element={
-              <PrivateRoute>
                 <Profile />
-              </PrivateRoute>
             }
           />
           <Route
             index={false}
             path="about"
             element={
-              <PrivateRoute>
                 <About />
-              </PrivateRoute>
             }
           />
           <Route
             index={false}
             path="champions"
             element={
-              <PrivateRoute>
                 <Champions/>
-              </PrivateRoute>
             }
           />
           <Route
             index={false}
             path="summoner"
             element={
-              <PrivateRoute>
-                <div>summoner</div>
-              </PrivateRoute>
+                <SummonerInfo/>
+            }
+          />
+          <Route
+            index={false}
+            path="summoner/:name"
+            element={
+                <SummonerInfo/>
             }
           />
           <Route path="champions/:id" element={<SingleChampion/>}/>
