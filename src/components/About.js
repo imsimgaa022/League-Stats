@@ -20,8 +20,10 @@ const About = () => {
           height: "100vh",
           background: "url('/images/home/jhinHome.jpg')",
           backgroundSize: "cover",
+          flexDirection:"column"
         }}
       >
+        <div className="welcome-text" style={{paddingBottom:"5%"}}><h1>Welcome to League of Stats!</h1></div>
         <div class="search-box">
           <Form onFinish={handleFinish}>
             <Form.Item name="summoner_name">
@@ -38,7 +40,6 @@ const About = () => {
           </Form>
         </div>
       </div>
-      <div className="block"></div>
     </>
   );
 };

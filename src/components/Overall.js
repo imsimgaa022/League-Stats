@@ -1,5 +1,4 @@
-import { InfoCircleFilled } from '@ant-design/icons';
-import { Button, Col, Progress, Row, Spin } from 'antd';
+import { Col, Progress, Row, Spin } from 'antd';
 import React, { useEffect, useState } from 'react'
 
 const Overall = ({summoner, summonerName, singleGame, isLoading}) => {
@@ -7,38 +6,6 @@ const Overall = ({summoner, summonerName, singleGame, isLoading}) => {
     const [topThree, setTopThree] = useState([]);
     const [roles, setRoles] = useState(null);
     let hasMatchHistory = !!playerGames?.length;
-
-    // async function getGamesIds() {
-    //     const response = await fetch(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summoner?.puuid}/ids?start=0&count=20&api_key=${process.env.REACT_APP_RIOT_API_KEY}`)
-    //     const data = await response.json();
-    //     setMatchList(data);
-    // }
-
-    // async function fetchGames() {
-    //     setIsLoading(true);
-    //     const ids = matchList;
-    //     const gamesData = [];
-    //     console.log(gamesData);
-    //     for (const id of ids) {
-    //         const response = await fetch(`https://europe.api.riotgames.com/lol/match/v5/matches/${id}?api_key=${process.env.REACT_APP_RIOT_API_KEY}`);
-    //         const gameData = await response.json();
-    //         gamesData.push(gameData);
-    //     }
-    //     setSingleGame(gamesData);
-    //     localStorage.setItem("games", JSON.stringify(gamesData));
-    //     setIsLoading(false);
-    // }
-    // console.log(matchList);
-    // console.log(singleGame)
-    // console.log(playerGames)
-
-    // useEffect(() => {
-    //     getGamesIds();
-    // },[summoner]);
-
-    // useEffect(() => {
-    //     fetchGames();
-    // }, [matchList])
 
     useEffect(() => {
         let singlePlayerGame = [];

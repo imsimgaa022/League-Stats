@@ -27,7 +27,6 @@ const SummonerInfo = () => {
   const [summonerNames, setSummonerNames] = useState([]);
   const [playedWith, setPlayedWith] = useState([]);
   const params = useParams();
-  console.log(params?.name);
 
   useEffect(() => {
     setSummonerName(localStorage.getItem("summoner_name") || params?.name);
@@ -143,21 +142,6 @@ const SummonerInfo = () => {
     },
   ];
 
-  const initialValues = {
-    summoner_name: summonerName,
-  };
-
-  const handleFinish = (values) => {
-    setIsLoading(true);
-    setSummonerName(values?.summoner_name);
-    localStorage.setItem("summoner_name", values?.summoner_name);
-    localStorage.removeItem("games");
-    setMatchList([]);
-    setSingleGame([]);
-    setSummonerNames([]);
-    setPlayedWith([]);
-  };
-
   return (
     <div
       className="home-image" 
@@ -218,6 +202,7 @@ const SummonerInfo = () => {
                   </Skeleton>
                 </Card>
                 <Card>
+                  <Skeleton active avatar loading={isLoading}>
                   <Row>
                     <Col span={24}>
                       <p
@@ -238,6 +223,7 @@ const SummonerInfo = () => {
                       );
                     })}
                   </Row>
+                  </Skeleton>
                 </Card>
               </Col>
               <Col

@@ -15,8 +15,7 @@ const NavBar = () => {
   let user = JSON.parse(localStorage.getItem("userData"));
 
   const onChange = (key) => {
-    console.log(key)
-      if (key == "about") {
+      if (key == "home") {
         console.log("jest")
         navigate("/");
       } else {
@@ -25,8 +24,8 @@ const NavBar = () => {
   };
   const items = [
     {
-      key: "about",
-      label: `About`,
+      key: "home",
+      label: `Home`,
     },
     {
       key: "summoner",

@@ -497,3 +497,37 @@ h1 {
   transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
 }
 
+.tour-color .ant-tour-next-btn {
+  background-color: purple !important;
+}
+
+.welcome-text {
+    font-size: 28px;
+    background: -webkit-linear-gradient(white, purple);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.highlight-btn {
+  /* border: 1px solid blue; */
+  animation: highlight 1s infinite;
+}
+
+
+@keyframes highlight {
+  0% {
+    border: 1px solid red;
+  }
+  50% {
+    border: 1px solid blue;
+  }
+  100% {
+    border: 1px solid green;
+  }
+}
+
+.high-arrow .ant-collapse-expand-icon {
+  color: gold;
+  animation: hajlight 1s infinite;
+}

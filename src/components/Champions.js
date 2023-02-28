@@ -131,16 +131,16 @@ const Champions = () => {
           paddingTop: "3%",
           height: `100%`,
           background:
-            "url('https://images6.alphacoders.com/651/651136.jpg')",
+            "url('/images/home/jhinHome.jpg')",
           backgroundSize:"cover"
         }}
       >
         {displayedItems && (
           <>
-            <Button style={{margin: "0 auto", display:"flex", marginBottom:"2%"}} type="primary" onClick={() => setOpen(true)}>
-              Help
+            <Button className="michroma-font highlight-btn" style={{margin: "0 auto", display:"flex", marginBottom:"2%", background:"purple"}} type="primary" onClick={() => setOpen(true)}>
+              GUIDE
             </Button>
-            <Tour open={open} onClose={() => setOpen(false)} steps={steps} />
+            <Tour className="tour-color" open={open} onClose={() => setOpen(false)} steps={steps} />
             <Row style={{background:"white", margin:"0% 3% 3% 3%"}}>
               <Col style={{padding:"0% 1%"}} className="flex-center" ref={ref1} span={3}>
                 {!searchTag?.[0]?.length &&<Input prefix={<SearchOutlined/>} placeholder="Search" onChange={handleSearch}/>}

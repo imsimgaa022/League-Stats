@@ -16,7 +16,7 @@ const SingleGame = ({ game, summonerName, fetchGames, setGameCount }) => {
         style={{ marginBottom: "2%", borderLeft: playerStats?.win ? "10px solid blue" : "10px solid red", marginTop:"2%" }}
         expandIconPosition="end"
         accordion
-        className="collapse-padding"
+        className="collapse-padding high-arrow"
       >
         <Panel
           style={{ backgroundColor: playerStats?.win ? "#ecf2ff" : "#fff0f3" }}
