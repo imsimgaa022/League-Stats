@@ -16,13 +16,18 @@ code {
 
 .hover-card:hover {
   transform: translate3D(0,-1px,0) scale(1.2);
-  box-shadow: 8px 28px 50px rgba(39,44,49,.07), 1px 6px 12px rgba(39,44,49,.04);
   transition: all .6s ease;
+  box-shadow: 8px 28px 50px rgba(39,44,49,.07), 1px 6px 12px rgba(39,44,49,.04);
 }
 
 .michroma-font {
-  font-family: 'Michroma' !important;  
+  font-family: 'Michroma' !important;
   /* font-family: Spiegel, "Arial Narrow", Arial, sans-serif; */
+}
+
+.michroma-font-white {
+  font-family: 'Michroma' !important;
+  color: white;
 }
 
 .color-white {
@@ -59,6 +64,28 @@ h1 {
   position: absolute;
   background: purple;
   pointer-events: none;
+}
+
+.overal-tabs .ant-tabs-tab {
+  color: white;
+  font-weight: bold;
+}
+
+.overal-tabs .ant-tabs-ink-bar {
+  position: absolute;
+  background: purple;
+  pointer-events: none;
+}
+
+.overal-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: white !important; 
+  font-weight: 500;
+  font-weight: bold;
+}
+
+.overal-tabs .ant-collapse-header {
+  /* border-radius: 0px 0px 0px 8px !important; */
+  border: none;
 }
 
 .custom-pagination .ant-pagination-item > a {
@@ -365,12 +392,16 @@ h1 {
   text-transform: uppercase;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .bg-blue {
-  background-color: #ecf2ff;
+  background-image: linear-gradient(90deg,rgba(0,0,255,.5),rgba(0,0,255,.1) 50%) !important;
 }
 
 .bg-red {
-  background-color: #fff0f3;
+  background-image: linear-gradient(90deg,rgba(255,0,0,0.5),rgba(255,0,0,.1) 50%) !important;
 }
 
 .opacity-bg {
@@ -383,6 +414,10 @@ h1 {
 
 .progres-color-win .ant-progress-success-bg {
   background-color: blue !important;
+}
+
+.progress-text .ant-progress-text {
+  color: white !important;
 }
 
 .progres-color-lose .ant-progress-success-bg {
@@ -528,6 +563,48 @@ h1 {
 }
 
 .high-arrow .ant-collapse-expand-icon {
-  color: gold;
+  color: white;
   animation: hajlight 1s infinite;
+}
+
+.copalpse-bg-lose .ant-collapse-item {
+  background-color: none !important;
+  background-image: linear-gradient(90deg,rgba(255,0,0,0.4),rgba(255,0,0,0) 50%) !important;
+}
+
+.copalpse-bg-win .ant-collapse-item {
+  background-image: linear-gradient(90deg,rgba(0,0,255,.5),rgba(255,0,0,0) 50%) !important;
+}
+
+.middle-row-color-win {
+  background-image: linear-gradient(90deg,rgba(0,0,255,.5),rgba(255,0,0,.5) 100%) !important;
+}
+
+.middle-row-color-lose {
+  background-image: linear-gradient(90deg,rgba(255,0,0,.5),rgba(0,0,255,.5) 100%) !important;
+}
+
+.green-wr {
+  background-image: linear-gradient(90deg,rgba(0,255,0,.2),rgba(0,255,0,0.06) 50%) !important
+}
+
+.red-wr {
+  background-image: linear-gradient(90deg,rgba(255,0,0,.2),rgba(255,0,0,0.06) 50%) !important
+}
+
+.friends-name {
+  margin: 1%;
+  background: -webkit-linear-gradient(white, purple);
+  background-clip: border-box;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.friends-name:hover {
+  transform: translate3D(0,-1px,0) scale(1.2);
+  transition: all .6s ease;
 }

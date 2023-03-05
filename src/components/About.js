@@ -12,6 +12,13 @@ const About = () => {
     navigate(`/home/summoner/${values?.summoner_name}`);
   }
 
+  const handleFriendClick = (friend) => {
+    localStorage.setItem("summoner_name", friend);
+    navigate(`/home/summoner/${friend}`);
+  }
+  const creator = "Jhìntonic"
+  const friends = ["top but not pedó", "kapazakameru", "Macbarbie0700", "Dr GLIDE man", "Aelius Maximus"]
+
   return (
     <>
       <div
@@ -39,6 +46,21 @@ const About = () => {
             </button>
           </Form>
         </div>
+        <div>
+        {/* <p style={{fontWeight:"bold"}} className="text-center michroma-font-white">Creator</p> */}
+          <p onClick={() =>handleFriendClick(creator)} className="michroma-font-white friends-name" style={{margin:"1%", fontSize:"30px"}}>Jhìntonic</p>
+        </div>
+        <div style={{width:"100%"}}>
+          {/* <p style={{fontWeight:"bold"}} className="text-center michroma-font-white">Teammates</p> */}
+          <div style={{display:"flex", justifyContent:"center"}}>
+            {friends.map((firend) => {
+              return (
+                <p onClick={() =>handleFriendClick(firend)} className="michroma-font-white friends-name" style={{margin:"1%"}}>{firend}</p>
+              )
+            })} 
+          </div>
+        </div>
+       
       </div>
     </>
   );

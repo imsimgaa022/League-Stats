@@ -6,6 +6,7 @@ import {
   GET_USER_BY_NAME,
   GET_USER_RANKS,
 } from "../api_constants/apiLink";
+import { renderAvatarIcon } from "../helpers/avatarlevels";
 import MatchDetailsInfo from "./MatchDetailsInfo";
 import { MatchHistory } from "./MatchHistory";
 import { MostPlayedChamps } from "./MostPlayedChamps";
@@ -146,7 +147,7 @@ const SummonerInfo = () => {
     <div
       className="home-image" 
       style={{
-        height: "100vh",
+        minHeight: "100vh",
         background: "url('/images/home/jhinHome.jpg')",
         backgroundSize: "cover",
       }}
@@ -155,94 +156,83 @@ const SummonerInfo = () => {
         {summoner && (
           <>
             <Row style={{paddingTop: "2%"}}>
-              <Col style={{ paddingTop: "0%", paddingLeft: "2%" }} span={8}>
-                <Card style={{ marginBottom: "2%", border: "1px solid rgb(59,43,68)" }}>
+              <Col style={{ paddingTop: "0%", paddingLeft: "2%" }} span={24}>
+                <Row style={{alignItems:"center"}}>
+                  <Col span={8}>
                   {isLoading ? (<Skeleton avatar active/>) : (
-
                   <div
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "space-between",
+                      justifyContent: "start",
+                      flexDirection:"column-reverse"
                     }}
                   >
+                     
+                    <div style={{position: "relative"}}>
+                      <img style={{zIndex:"1000", position:"relative"}} width={"200px"} src={renderAvatarIcon(summoner?.summonerLevel)}/>
+                      <img style={{position:"absolute", top:"24%", left:"25%", borderRadius:"50%"}} width={"100px"} src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${summoner?.profileIconId}.png`}/>
+                      <span style={{position:"absolute", bottom:"17%", left:"44%", color:"white", zIndex:"2000"}}>{summoner?.summonerLevel}</span>
+                    </div>
                     <p
                       className="michroma-font subtitle"
-                      style={{ textAlign: "center" }}
+                      style={{ textAlign: "center", color:"white", fontStyle:"italic" }}
                     >
-                      {summoner?.name}
+                       {summoner?.name}
                     </p>
-                    <Badge
-                      color="hwb(205 6% 9%)"
-                      offset={[-40, 80]}
-                      count={summoner?.summonerLevel}
-                      overflowCount={5000}
-                    >
-                      <Avatar
-                        size={80}
-                        src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${summoner?.profileIconId}.png`}
-                      />
-                    </Badge>
                   </div>
                   )}
-                </Card>
-                <Card style={{ marginBottom: "2%" }}>
-                  <Skeleton active avatar loading={isLoading}>
-                  <Row>
-                    {rankInfo?.map((league, index) => {
-                      return (
-                        <RankDisplay
-                          key={index}
-                          league={league}
-                          rankInfo={rankInfo}
-                        />
-                      );
-                    })}
-                  </Row>
-                  </Skeleton>
-                </Card>
-                <Card>
-                  <Skeleton active avatar loading={isLoading}>
-                  <Row>
-                    <Col span={24}>
-                      <p
-                        className="michroma-font subtitle"
-                        style={{ textAlign: "center" }}
-                      >
-                        Most played Champions
-                      </p>
-                    </Col>
-                    {mostPlayedChamps?.map((champ) => {
-                      return (
-                        <>
-                          <MostPlayedChamps
-                            champ={champ}
-                            mostPlayedChamps={mostPlayedChamps}
+                  </Col>
+                  <Col span={16}>
+                    <Skeleton active avatar loading={isLoading}>
+                    <Row>
+                      {rankInfo?.map((league, index) => {
+                        return (
+                          <RankDisplay
+                            key={index}
+                            league={league}
+                            rankInfo={rankInfo}
                           />
-                        </>
-                      );
-                    })}
-                  </Row>
-                  </Skeleton>
-                </Card>
+                        );
+                      })}
+                    </Row>
+                    </Skeleton>
+                  </Col>
+                </Row>
               </Col>
+              <Skeleton active avatar loading={isLoading}>
               <Col
                 style={{
                   paddingTop: "0%",
                   paddingRight: "2%",
                   paddingLeft: "2%",
                 }}
-                span={16}
+                span={18}
               >
-                <Card>
                   <Tabs
-                    tabBarGutter={80}
-                    centered
-                    className="custom-tabs michroma-font"
+                    className="overal-tabs michroma-font"
                     defaultActiveKey="3"
                     items={items}
                   />
-                </Card>
+              </Col>
+              </Skeleton>
+              <Col span={6}>
+              <Skeleton active avatar loading={isLoading}>
+              <Row>
+                <span style={{color:"white"}} className="michroma-font subtitle">Most played Champions</span>
+              </Row>
+              {mostPlayedChamps?.map((champ, index) => {
+                return (
+                  <>
+                    <MostPlayedChamps
+                      champ={champ}
+                      index={index}
+                      mostPlayedChamps={mostPlayedChamps}
+                    />
+                  </>
+                );
+              })}
+              </Skeleton>
               </Col>
             </Row>
           </>

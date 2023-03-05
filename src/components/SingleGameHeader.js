@@ -71,7 +71,7 @@ const SingleGameHeader = ({ game, summonerName, playerStats }) => {
 
   return (
     <>
-      <Row>
+      <Row style={{color:"white"}}>
         <Col span={4} className="michroma-font">
           <div
             className={`${playerStats?.win ? "win-word" : "defeat-word"}`}

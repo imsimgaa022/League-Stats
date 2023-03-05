@@ -1,4 +1,4 @@
-import { Button, Row, Spin, Table } from "antd";
+import { Button, Col, Row, Spin, Table } from "antd";
 import React, { useEffect, useState } from "react";
 
 const MatchDetailsInfo = ({
@@ -61,41 +61,11 @@ const MatchDetailsInfo = ({
     setTopThree(topThreeNames);
   }, [summonerNames]);
 
-  const dataSource = topThree;
-  const columns = [
-    {
-      title: "Summoner",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Played",
-      dataIndex: "count",
-      key: "count",
-    },
-    {
-      title: "W - L",
-      dataIndex: "winCount",
-      key: "winCount",
-      render: (_, item) => (
-        <span>
-          {item?.winCount} - {item?.count - item?.winCount}
-        </span>
-      ),
-    },
-    {
-      title: "Win ratio",
-      dataIndex: "winCount",
-      key: "winCount",
-      render: (_, item) => (
-        <span>{((item?.winCount / item?.count) * 100).toFixed(0)} % </span>
-      ),
-    },
-  ];
+  console.log(topThree)
 
   return (
     <>
-      <h4 style={{ textAlign: "center" }}>
+      <h4 style={{ textAlign: "center", color:"white" }}>
         Recently Played With (Recent 20 Games)
       </h4>
       {!hasMatchHistory && (
@@ -108,9 +78,27 @@ const MatchDetailsInfo = ({
           </Row>
         </>
       )}
-      {!!topThree.length && (
-        <Table pagination={false} dataSource={dataSource} columns={columns} />
-      )}
+      <Row className="michroma-font-white">
+        <Col span={6}>Summoner</Col>
+        <Col span={6}>Games played</Col>
+        <Col span={6}>W / L</Col>
+        <Col span={6}>Ratio</Col>
+      </Row>
+      <Row style={{flexDirection:"column"}}>
+      {topThree?.map((item) => {
+        console.log('ajtem', item)
+        return (
+          <>
+          <div className={`${((item?.winCount / item?.count) * 100).toFixed(0) >= 50 ? "green-wr" : "red-wr"}`} style={{display:"flex", alignItems:"center", marginBottom:"3%", padding:"1%", borderRadius:"15px"}}>
+            <Col className="michroma-font-white" span={6}>{item?.name}</Col>
+            <Col className="michroma-font-white" span={6}>{item?.count}</Col>
+            <Col className="michroma-font-white" span={6}>{item?.winCount} - {item?.count - item?.winCount}</Col>
+            <Col span={6}><span className="michroma-font-white">{((item?.winCount / item?.count) * 100).toFixed(0)}</span> <span style={{color:"white"}}>%</span> </Col>
+          </div>
+          </>
+        )
+      })}
+      </Row>
     </>
   );
 };

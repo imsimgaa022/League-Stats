@@ -113,7 +113,7 @@ const MatchTable = ({ game, summonerName }) => {
           return (
               <>
               <p style={{margin:"0", textAlign:"center"}}>{item?.totalDamageDealtToChampions}</p>
-              <Progress percent={item?.totalDamageDealtToChampions / maxDamgeInTeam(participants) * 100} className="flex-center" showInfo={false} style={{width:"100%", padding:"0% 10%"}}/>
+              <Progress strokeColor={`${item?.win ? "blue" : "red"}`} percent={item?.totalDamageDealtToChampions / maxDamgeInTeam(participants) * 100} className="flex-center" showInfo={false} style={{width:"100%", padding:"0% 10%"}}/>
               </>
           )
       }
@@ -124,7 +124,7 @@ const MatchTable = ({ game, summonerName }) => {
       key: "Wards",
       render: (_, item) => {
           return (
-              <span>{item?.wardsPlaced} / {item?.wardsKilled}</span>
+              <p className="text-center">{item?.wardsPlaced} / {item?.wardsKilled}</p>
           )
       }
     },
@@ -134,8 +134,8 @@ const MatchTable = ({ game, summonerName }) => {
         key: "CS",
         render: (_, item) => {
             return (
-                <span className="mb-0 payment-columns">
-            <span>{item?.totalMinionsKilled + item?.neutralMinionsKilled} | {((item?.totalMinionsKilled + item?.neutralMinionsKilled) / Math.floor((item?.timePlayed / 60))).toFixed(1)}/min</span>
+          <span className="mb-0 payment-columns">
+            <p className="text-center">{item?.totalMinionsKilled + item?.neutralMinionsKilled} | {((item?.totalMinionsKilled + item?.neutralMinionsKilled) / Math.floor((item?.timePlayed / 60))).toFixed(1)}/min</p>
           </span>
         );
     },
@@ -177,7 +177,7 @@ const MatchTable = ({ game, summonerName }) => {
         dataSource={team1}
         columns={columns}
       />
-      <div>
+      <div className={game?.teams[0]?.win ? "middle-row-color-win" : "middle-row-color-lose"}>
           <Row>
               <Col span={5} className="flex-center">
                   <span style={{paddingRight:"3%"}}>{game?.teams?.[0]?.objectives?.baron?.kills}</span><img alt="" src="https://s-lol-web.op.gg/images/icon/icon-baron-r.svg?v=1676591616266"/>

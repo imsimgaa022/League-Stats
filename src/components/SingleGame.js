@@ -16,10 +16,10 @@ const SingleGame = ({ game, summonerName, fetchGames, setGameCount }) => {
         style={{ marginBottom: "2%", borderLeft: playerStats?.win ? "10px solid blue" : "10px solid red", marginTop:"2%" }}
         expandIconPosition="end"
         accordion
-        className="collapse-padding high-arrow"
+        className={`collapse-padding high-arrow ${playerStats?.win ? "copalpse-bg-win" : "copalpse-bg-lose"} `}
       >
         <Panel
-          style={{ backgroundColor: playerStats?.win ? "#ecf2ff" : "#fff0f3" }}
+          style={{color:"white"}}
           header={
             <SingleGameHeader
               playerStats={playerStats}

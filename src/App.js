@@ -9,14 +9,13 @@ import Profile from "./components/Profile";
 import Champions from "./components/Champions";
 import SingleChampion from "./components/SingleChampion";
 import SummonerInfo from "./components/SummonerInfo";
+import NotFound from "./private-route/NotFound";
 
 function App() {
   return (
     <div>
-      {/* <PrivateRoute>
-        <NavBar />
-      </PrivateRoute> */}
       <Routes>
+        <Route path='*' element={<NotFound />}/>
         <Route path="/" element={<About/>}/>
         <Route path="/home" element={<NavBar/>}>
           <Route index={true}/>

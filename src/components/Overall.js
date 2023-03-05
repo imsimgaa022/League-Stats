@@ -163,21 +163,21 @@ const Overall = ({summoner, summonerName, singleGame, isLoading}) => {
         {hasMatchHistory && (
             <>
             <Row justify={"center"}>
-                <h3 style={{textAlign:"center"}} className="michroma-font">Recent 20 Games played stats</h3>
+                <h3 style={{textAlign:"center"}} className="michroma-font-white">Recent 20 Games played stats</h3>
             </Row>
             <Row style={{paddingTop:"3%"}}>
-                <Col span={3} className="flex-center michroma-font" style={{flexDirection:"column"}}>
-                    <div><b>W {calculateGamesWon()} - {20 - calculateGamesWon()} L</b></div>
-                    <Progress strokeWidth={12} trailColor='red' type="circle" percent={((calculateGamesWon()/20)*100).toFixed(0)} width={120} />
+                <Col span={3} className="flex-center michroma-font-white" style={{flexDirection:"column"}}>
+                    <div style={{marginBottom:"2%"}}><b>W {calculateGamesWon()} - {20 - calculateGamesWon()} L</b></div>
+                    <Progress className='progress-text' strokeWidth={12} trailColor='red' type="circle" percent={((calculateGamesWon()/20)*100).toFixed(0)} width={120} />
                 </Col>
-                <Col span={7} className="flex-center michroma-font" style={{flexDirection: "column"}}>
+                <Col span={7} className="flex-center michroma-font-white" style={{flexDirection: "column"}}>
                     <div>K D A</div>
                     <div style={{fontSize:"16px"}}>{(calculatePlayerKills() / 20).toFixed(1)} / <span className='red-text'>{(calculatePlayerDeaths() / 20).toFixed(1)}</span> / {(calculatePlayerAssists() / 20).toFixed(1)}</div>
                     <div style={{fontSize:"18px"}}><b>{((calculatePlayerKills() + calculatePlayerAssists()) / calculatePlayerDeaths()).toFixed(2)} : 1</b></div>
                 </Col>
                 <Col span={7} style={{paddingTop:"0%"}}>
                         <Row justify={"center"} style={{paddingBottom:"5%"}}>
-                            <h3 className='michroma-font' style={{margin:"0%"}}>Most played champions</h3>
+                            <h3 className='michroma-font-white' style={{margin:"0%"}}>Most played champions</h3>
                         </Row>
                     {topThree?.map((champ)=> {
                         let singleChamp = champ?.game?.[champ?.name]?.[0]
@@ -188,15 +188,15 @@ const Overall = ({summoner, summonerName, singleGame, isLoading}) => {
                             <Row style={{paddingBottom:"5%"}}>
                                 <Col span={8} style={{display:"flex", alignItems:"center"}}>
                                     <img alt='' style={{borderRadius:"50%"}} width={25} src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${singleChamp?.championName}.png`}/>
-                                    <span style={{paddingLeft:"5%", color: ((calculateChampWins(champGames) / numberOfGames)*100).toFixed(0) >= 75 && "red"}}>
+                                    <span style={{paddingLeft:"5%", color: ((calculateChampWins(champGames) / numberOfGames)*100).toFixed(0) >= 75 ? "red" : "white"}}>
                                         {((calculateChampWins(champGames) / numberOfGames)*100).toFixed(0)} %
                                     </span>
                                 </Col>
-                                <Col span={12} style={{display:"flex", alignItems:"center", justifyContent:"space-around"}}>
+                                <Col span={12} style={{display:"flex", alignItems:"center", justifyContent:"space-around", color:"white"}}>
                                     <div>
                                      ({calculateChampWins(champGames)}W {numberOfGames - calculateChampWins(champGames)}L)
                                     </div>
-                                    <div style={{color: kdaTextColor(calculateChampKda(champGames))}}>
+                                    <div style={{fontWeight:"bold", color: kdaTextColor(calculateChampKda(champGames))}}>
                                     {calculateChampKda(champGames)} KDA
                                     </div>
                                 </Col>
@@ -206,7 +206,7 @@ const Overall = ({summoner, summonerName, singleGame, isLoading}) => {
                 </Col>
                 <Col span={7}>
                     <Row justify={"center"}>
-                    <h3 className='michroma-font' style={{margin:"0%"}}>Prefered roles</h3>
+                    <h3 className='michroma-font-white' style={{margin:"0%"}}>Prefered roles</h3>
                     </Row>
                     <Row>
                         <Col span={3}>
