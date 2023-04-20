@@ -1,4 +1,4 @@
-import { Avatar, Badge, Button, Card, Col, Form, Input, Row, Skeleton, Tabs } from "antd";
+import { Card, Col, Empty, Row, Tabs } from "antd";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -10,7 +10,6 @@ import { renderAvatarIcon } from "../helpers/avatarlevels";
 import MatchDetailsInfo from "./MatchDetailsInfo";
 import { MatchHistory } from "./MatchHistory";
 import { MostPlayedChamps } from "./MostPlayedChamps";
-import NavBar from "./NavBar";
 import Overall from "./Overall";
 import RankDisplay from "./RankDisplay";
 
@@ -18,20 +17,13 @@ const SummonerInfo = () => {
   const [summoner, setSummoner] = useState(null);
   const [rankInfo, setRankInfo] = useState(null);
   const [mostPlayedChamps, setMostPlayedChamps] = useState(null);
-  const [summonerName, setSummonerName] = useState(
-    localStorage.getItem("summoner_name")
-  );
-  const [activeName, setActiveName] = useState(localStorage.getItem("summoner_name") || params?.name);
   const [matchList, setMatchList] = useState([]);
   const [singleGame, setSingleGame] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [summonerNames, setSummonerNames] = useState([]);
   const [playedWith, setPlayedWith] = useState([]);
   const params = useParams();
-
-  useEffect(() => {
-    setSummonerName(localStorage.getItem("summoner_name") || params?.name);
-  }, [activeName])
+  const summonerName = params?.name ? params?.name : localStorage.getItem("summoner_name");
 
   useEffect(() => {
     if (summonerName) {
@@ -65,7 +57,7 @@ const SummonerInfo = () => {
 
   async function getGamesIds() {
     const response = await fetch(
-      `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summoner?.puuid}/ids?start=0&count=20&api_key=${process.env.REACT_APP_RIOT_API_KEY}`
+      `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summoner?.puuid}/ids?start=0&count=10&api_key=${process.env.REACT_APP_RIOT_API_KEY}`
     );
     const data = await response.json();
     setMatchList(data);
@@ -75,7 +67,6 @@ const SummonerInfo = () => {
     setIsLoading(true);
     const ids = matchList;
     const gamesData = [];
-    console.log(gamesData);
     for (const id of ids) {
       const response = await fetch(
         `https://europe.api.riotgames.com/lol/match/v5/matches/${id}?api_key=${process.env.REACT_APP_RIOT_API_KEY}`
@@ -90,14 +81,17 @@ const SummonerInfo = () => {
 
   useEffect(() => {
     getGamesIds();
-  }, [summoner]);
+    // eslint-disable-next-line
+  }, [summoner?.puuid]);
 
   useEffect(() => {
     fetchGames();
+    // eslint-disable-next-line
   }, [matchList]);
 
   const items = [
     {
+      disabled: isLoading,
       key: "3",
       label: `Overall`,
       children: (
@@ -112,33 +106,39 @@ const SummonerInfo = () => {
       ),
     },
     {
+      disabled: isLoading,
       key: "1",
       label: `Match History`,
       children: (
-        <MatchHistory
-          singleGame={singleGame}
-          fetchGames={fetchGames}
-          matchList={matchList}
-          isLoading={isLoading}
-          summonerName={summonerName}
-          summoner={summoner}
-        />
+        singleGame?.length ? (
+          <MatchHistory
+            singleGame={singleGame}
+            fetchGames={fetchGames}
+            matchList={matchList}
+            isLoading={isLoading}
+            summonerName={summonerName}
+            summoner={summoner}
+          />
+        ) : (
+            <Empty style={{marginTop:"3%"}}></Empty>
+        )
       ),
     },
     {
+      disabled: isLoading,
       key: "2",
       label: `Played With`,
       children: (
-        <MatchDetailsInfo
-          playedWith={playedWith}
-          setPlayedWith={setPlayedWith}
-          summonerNames={summonerNames}
-          setSummonerNames={setSummonerNames}
-          isLoading={isLoading}
-          singleGame={singleGame}
-          summonerName={summonerName}
-          summoner={summoner}
-        />
+          <MatchDetailsInfo
+            playedWith={playedWith}
+            setPlayedWith={setPlayedWith}
+            summonerNames={summonerNames}
+            setSummonerNames={setSummonerNames}
+            isLoading={isLoading}
+            singleGame={singleGame}
+            summonerName={summonerName}
+            summoner={summoner}
+          />
       ),
     },
   ];
@@ -153,13 +153,12 @@ const SummonerInfo = () => {
       }}
     >
       <>
-        {summoner && (
+        {summoner ? (
           <>
             <Row style={{paddingTop: "2%"}}>
               <Col style={{ paddingTop: "0%", paddingLeft: "2%" }} span={24}>
                 <Row style={{alignItems:"center"}}>
                   <Col span={8}>
-                  {isLoading ? (<Skeleton avatar active/>) : (
                   <div
                     style={{
                       display: "flex",
@@ -170,8 +169,8 @@ const SummonerInfo = () => {
                   >
                      
                     <div style={{position: "relative"}}>
-                      <img style={{zIndex:"1000", position:"relative"}} width={"200px"} src={renderAvatarIcon(summoner?.summonerLevel)}/>
-                      <img style={{position:"absolute", top:"24%", left:"25%", borderRadius:"50%"}} width={"100px"} src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${summoner?.profileIconId}.png`}/>
+                      <img style={{zIndex:"1000", position:"relative"}} width={"200px"} alt="" src={renderAvatarIcon(summoner?.summonerLevel)}/>
+                      <img style={{position:"absolute", top:"24%", left:"25%", borderRadius:"50%"}} width={"100px"} alt="" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${summoner?.profileIconId}.png`}/>
                       <span style={{position:"absolute", bottom:"17%", left:"44%", color:"white", zIndex:"2000"}}>{summoner?.summonerLevel}</span>
                     </div>
                     <p
@@ -181,10 +180,8 @@ const SummonerInfo = () => {
                        {summoner?.name}
                     </p>
                   </div>
-                  )}
                   </Col>
                   <Col span={16}>
-                    <Skeleton active avatar loading={isLoading}>
                     <Row>
                       {rankInfo?.map((league, index) => {
                         return (
@@ -196,11 +193,9 @@ const SummonerInfo = () => {
                         );
                       })}
                     </Row>
-                    </Skeleton>
                   </Col>
                 </Row>
               </Col>
-              <Skeleton active avatar loading={isLoading}>
               <Col
                 style={{
                   paddingTop: "0%",
@@ -215,13 +210,11 @@ const SummonerInfo = () => {
                     items={items}
                   />
               </Col>
-              </Skeleton>
               <Col span={6}>
-              <Skeleton active avatar loading={isLoading}>
               <Row>
                 <span style={{color:"white"}} className="michroma-font subtitle">Most played Champions</span>
               </Row>
-              {mostPlayedChamps?.map((champ, index) => {
+              {mostPlayedChamps?.length ? mostPlayedChamps?.map((champ, index) => {
                 return (
                   <>
                     <MostPlayedChamps
@@ -231,11 +224,21 @@ const SummonerInfo = () => {
                     />
                   </>
                 );
-              })}
-              </Skeleton>
+              }) : (<Empty style={{marginTop:"5%"}}></Empty>)}
               </Col>
             </Row>
           </>
+        ) : (
+          !isLoading && (
+          <Row style={{paddingTop:"15%"}} justify="center">
+            <Col span={12}>
+              <Card bodyStyle={{padding:"10px"}}>
+                <h1 style={{textAlign:"center"}}>Opps</h1>
+                <h2 style={{textAlign:"center"}}>There is no summoner found by that name</h2>
+              </Card>
+            </Col>
+          </Row>
+          )
         )}
       </>
     </div>

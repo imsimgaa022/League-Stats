@@ -1,15 +1,8 @@
-import { Button, Row } from "antd";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SingleGame from "./SingleGame";
 import { Spin } from 'antd';
 
 export const MatchHistory = ({ summonerName, summoner, matchList, isLoading, fetchGames, singleGame }) => {
-  const [gameCount, setGameCount] = useState(4);
-
-    const onLoadMore = () => {
-      setGameCount(gameCount + 4);
-      fetchGames();
-    }
 
   return (
     <>
@@ -21,7 +14,7 @@ export const MatchHistory = ({ summonerName, summoner, matchList, isLoading, fet
               <>
                 <SingleGame 
                 key={index}
-                setGameCount={setGameCount}
+                // setGameCount={setGameCount}
                 fetchGames={fetchGames}
                 game={game?.info}
                 summonerName={summonerName}/>

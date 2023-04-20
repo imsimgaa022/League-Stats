@@ -1,4 +1,5 @@
-import { Button, Col, Row, Spin, Table } from "antd";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Col, Empty, Row, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 
 const MatchDetailsInfo = ({
@@ -11,12 +12,9 @@ const MatchDetailsInfo = ({
   playedWith,
   setPlayedWith,
 }) => {
-  // const [playedWith, setPlayedWith] = useState([]);
   const [topThree, setTopThree] = useState([]);
 
   let hasMatchHistory = !!singleGame?.length;
-
-  console.log(summonerNames);
 
   useEffect(() => {
     singleGame?.forEach((game) => {
@@ -61,18 +59,15 @@ const MatchDetailsInfo = ({
     setTopThree(topThreeNames);
   }, [summonerNames]);
 
-  console.log(topThree)
-
   return (
     <>
+      {topThree?.length ? (
+        <>
       <h4 style={{ textAlign: "center", color:"white" }}>
-        Recently Played With (Recent 20 Games)
+        Recently Played With (Recent 10 Games)
       </h4>
       {!hasMatchHistory && (
         <>
-          {/* <Row justify={"center"}>
-                <Button style={{backgroundColor: "purple"}} type='primary' onClick={fetchGames}>Get Stats</Button>
-            </Row> */}
           <Row justify={"center"} style={{ paddingTop: "5%" }}>
             <Spin spinning={isLoading} />
           </Row>
@@ -86,7 +81,6 @@ const MatchDetailsInfo = ({
       </Row>
       <Row style={{flexDirection:"column"}}>
       {topThree?.map((item) => {
-        console.log('ajtem', item)
         return (
           <>
           <div className={`${((item?.winCount / item?.count) * 100).toFixed(0) >= 50 ? "green-wr" : "red-wr"}`} style={{display:"flex", alignItems:"center", marginBottom:"3%", padding:"1%", borderRadius:"15px"}}>
@@ -99,6 +93,10 @@ const MatchDetailsInfo = ({
         )
       })}
       </Row>
+      </>
+      ) : (
+        <Empty style={{marginTop:"3%"}}></Empty>
+      )}
     </>
   );
 };

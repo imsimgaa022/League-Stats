@@ -1,25 +1,16 @@
-import React, { useState } from "react";
-import { Button, Modal, Tabs } from "antd";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import React from "react";
+import { Tabs } from "antd";
+import { Outlet, useNavigate } from "react-router-dom";
 
 
 const NavBar = () => {
-  const [logoutModalVisible, setLogOutModalVisible] = useState(false);
   const navigate = useNavigate();
-  const handleLogOut = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("userData");
-    localStorage.clear();
-    navigate("/");
-  };
-  let user = JSON.parse(localStorage.getItem("userData"));
 
   const onChange = (key) => {
-      if (key == "home") {
-        console.log("jest")
+      if (key === "home") {
         navigate("/");
       } else {
-        navigate(`/home/${key}`, {state:user});
+        navigate(`/home/${key}`);
       }
   };
   const items = [
@@ -35,24 +26,10 @@ const NavBar = () => {
       key: "champions",
       label: "Champions",
     },
-    {
-      key: "profile",
-      label: "Profile",
-    },
   ];
   return (
     <>
       <div id="navbar">
-      <Modal
-        visible={logoutModalVisible}
-        okText="Log Out"
-        onOk={handleLogOut}
-        onCancel={() => setLogOutModalVisible(false)}
-      >
-        <div style={{ textAlign: "center", padding: "5%" }}>
-          Are you sure you want to Log out?
-        </div>
-      </Modal>
         <Tabs
           onChange={onChange}
           className="custom-tabs michroma-font"

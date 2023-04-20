@@ -74,8 +74,6 @@ const SingleChampion = () => {
     return spellTag;
   }
 
-  console.log(champion?.[0])
-
   return (
     <>
       {champion && (

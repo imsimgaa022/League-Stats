@@ -127,9 +127,10 @@ const Champions = () => {
   return (
     <>
       <div
+        className="home-image"
         style={{
           paddingTop: "3%",
-          height: `100%`,
+          minHeight: `100vh`,
           background:
             "url('/images/home/jhinHome.jpg')",
           backgroundSize:"cover"
@@ -149,7 +150,6 @@ const Champions = () => {
             </Row>
             <Row>
               {displayedItems?.map((champion, index) => {
-                console.log(champion)
                 return (
                   <Col
                     key={index}
