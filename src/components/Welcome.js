@@ -1,27 +1,46 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Form, message, Modal } from "antd";
+import { Form, message, Modal, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllData, resetUserAction } from "../redux/actions";
 
 const Welcome = () => {
   let navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [summonerName, setSummonerName] = useState(false);
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state);
 
   const handleFinish = (values) => {
+    setSummonerName(values?.summoner_name)
     if (!values?.summoner_name || values?.summoner_name?.length < 3) {
       message.error("Please enter at least 3 characters!", 3)
       return;
     }
     localStorage.setItem("summoner_name", values?.summoner_name);
-    navigate(`/home/summoner/${values?.summoner_name}`);
-  }
+    if (data?.data?.user?.name !== values?.summoner_name) {
+      dispatch(fetchAllData(values?.summoner_name, redirect));
+    }
+  };
+
+  useEffect(() => {
+    dispatch(resetUserAction());
+  }, [dispatch]);
+
+  const redirect = () => {
+    navigate(`/home/summoner/${summonerName}`);
+  };
+
 
   const handleFriendClick = (friend) => {
     localStorage.setItem("summoner_name", friend);
-    navigate(`/home/summoner/${friend}`);
+    if (data?.data?.user?.name !== friend) {
+      dispatch(fetchAllData(friend, redirect));
+    }
   }
   const creator = "Jhìntonic"
-  const friends = ["top but not pedó", "kapazakameru", "Macbarbie0700", "Dr GLIDE man", "Aelius Maximus"]
+  const friends = ["top but not pedó", "kapazakameru", "Macbarbie0700", "Dr GLIDE man", "Aelius Maximus", "Winstoner"]
 
   const handleModalCancel = () => {
     setShowModal(false);
@@ -34,7 +53,6 @@ const Welcome = () => {
       localStorage.setItem('hasVisitedPage', true);
     }
   }, []);
-
 
   return (
     <>
@@ -61,7 +79,7 @@ const Welcome = () => {
           <h2 className="text-center">Miroslav</h2>
         </Modal>
         <div className="welcome-text" style={{paddingBottom:"5%"}}><h1>Welcome to League of Stats!</h1></div>
-        <div class="search-box">
+        <div class="search-box" style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
           <Form onFinish={handleFinish}>
             <Form.Item name="summoner_name">
             <input
@@ -71,10 +89,11 @@ const Welcome = () => {
               placeholder="Summoner name..."
             />
             </Form.Item>
-            <button style={{top:"0"}} type="submit" class="btn-search">
+            <button style={{top:"0"}} type="submit" class="btn-search" disabled={data?.isLoading}>
               <SearchOutlined/>
             </button>
           </Form>
+        <Spin size="large" spinning={data?.isLoading}/>
         </div>
         <div>
           <p onClick={() =>handleFriendClick(creator)} className="michroma-font-white friends-name" style={{margin:"1%", fontSize:"30px"}}>Jhìntonic</p>

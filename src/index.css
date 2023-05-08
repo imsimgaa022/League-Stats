@@ -78,13 +78,12 @@ h1 {
 }
 
 .overal-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: white !important; 
+  color: purple !important; 
   font-weight: 500;
   font-weight: bold;
 }
 
 .overal-tabs .ant-collapse-header {
-  /* border-radius: 0px 0px 0px 8px !important; */
   border: none;
 }
 

@@ -1,4 +1,4 @@
-import { Col, Empty, Progress, Row, Spin } from "antd";
+import { Col, Empty, Progress, Row } from "antd";
 import React, { useEffect, useState } from "react";
 
 const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
@@ -157,13 +157,6 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
 
   return (
     <>
-      {!hasMatchHistory && (
-        <>
-          <Row justify={"center"} style={{ paddingTop: "3%" }}>
-            <Spin size="large" spinning={isLoading} />
-          </Row>
-        </>
-      )}
       {hasMatchHistory ? (
         <>
           <Row justify={"center"}>
@@ -370,7 +363,7 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
         </>
       ) : (
           !isLoading && (
-              <Empty></Empty>
+              <Empty style={{marginTop:"3%"}} />
           )
       )}
     </>
