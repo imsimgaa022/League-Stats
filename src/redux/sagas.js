@@ -1,22 +1,23 @@
-import { message } from "antd";
 import { all, call, put, takeEvery } from "redux-saga/effects";
 import RiotApiService from "../api/apiEndpoints";
 import {
   fetchAllDataFailure,
   fetchAllDataSuccess,
   FETCH_ALL_DATA,
+  GET_ITEM_DATA,
+  GET_PATCH_VERSION,
   resetUserData,
   RESET_USER,
+  setItemData,
+  setPatchVersion,
 } from "./actions";
 
-function* fetchAllDataSaga(action) {
+function* fetchAllDataSaga({ payload }) {
   try {
-    const data = yield call(RiotApiService.fetchAllData, action?.payload);
+    const data = yield call(RiotApiService.fetchAllData, payload?.summoner_name);
     yield put(fetchAllDataSuccess(data));
-    action.redirect()
   } catch (error) {
     yield put(fetchAllDataFailure(error.message));
-    message.error("User not found!!!", 3);
   }
 }
 
@@ -28,9 +29,29 @@ function* resetUserSaga() {
   }
 }
 
+function* fetchItemDataSaga() {
+  try {
+    const data = yield call(RiotApiService.getItemData);
+    yield put(setItemData(data.data));
+  } catch (error) {
+    console.log(error);
+  };
+};
+
+function* getPatchVersionSaga() {
+  try {
+    const data = yield call(RiotApiService.getPatchVersion);
+    yield put(setPatchVersion(data));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export function* rootSaga() {
   yield all([
     takeEvery(FETCH_ALL_DATA, fetchAllDataSaga),
     takeEvery(RESET_USER, resetUserSaga),
+    takeEvery(GET_ITEM_DATA, fetchItemDataSaga),
+    takeEvery(GET_PATCH_VERSION, getPatchVersionSaga),
   ]);
 }

@@ -44,6 +44,16 @@ class RiotApiService {
     return response.data;
   }
 
+  async getItemData() {
+    const response = await axios.get('http://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/item.json');
+    return response.data;
+  };
+
+  async getPatchVersion() {
+    const response = await axios.get('https://ddragon.leagueoflegends.com/api/versions.json');
+    return response;
+  }
+
    fetchAllData = async (summonerName) => {
     const user = await this.getUserByName(summonerName);
     const ranks = await this.getUserRanks(user.id);

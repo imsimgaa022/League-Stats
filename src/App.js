@@ -5,21 +5,23 @@ import NavBar from "./components/NavBar";
 import Champions from "./components/Champions";
 import SingleChampion from "./components/SingleChampion";
 import SummonerInfo from "./components/SummonerInfo";
+import { useDispatch } from "react-redux";
+import { getPatchVersion } from "./redux/actions";
+import { useEffect } from "react";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPatchVersion());
+  }, [dispatch]);
+
   return (
     <div>
       <Routes>
         <Route path="/" element={<Welcome/>}/>
         <Route path="/home" element={<NavBar/>}>
           <Route index={true}/>
-          <Route
-            index={false}
-            path="about"
-            element={
-                <Welcome />
-            }
-          />
           <Route
             index={false}
             path="champions"

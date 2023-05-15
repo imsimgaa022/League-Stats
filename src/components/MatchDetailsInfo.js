@@ -9,12 +9,15 @@ const MatchDetailsInfo = ({
   singleGame,
   summonerNames,
   setSummonerNames,
-  playedWith,
-  setPlayedWith,
 }) => {
   const [topThree, setTopThree] = useState([]);
+  const [playedWith, setPlayedWith] = useState([]);
 
   let hasMatchHistory = !!singleGame?.length;
+
+  useEffect(() => {
+    setSummonerNames([]);
+  }, []);
 
   useEffect(() => {
     singleGame?.forEach((game) => {

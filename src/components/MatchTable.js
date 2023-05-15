@@ -1,7 +1,12 @@
-import { Avatar, Badge, Col, Progress, Row, Table } from "antd";
+import { Avatar, Badge, Col, Progress, Row, Table, Tooltip } from "antd";
+import DOMPurify from "dompurify";
 import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const MatchTable = ({ game, summonerName }) => {
+const MatchTable = ({ game, summonerName, itemData }) => {
+  let navigate = useNavigate();
+  const patchVersion = useSelector((state) => state.patchVersion);
 
   let participants = game?.participants;
   let team1 = participants?.slice(0, 5);
@@ -55,9 +60,30 @@ const MatchTable = ({ game, summonerName }) => {
         break;
     }
     return color;
+  };
+
+  const createHtml =(description) => {
+    let sanitizedHTML = DOMPurify.sanitize(description);
+    let html = { __html: sanitizedHTML };
+    return html;
   }
 
+  const tooltip = (itemId) => {
+    const itemName = (itemData?.[itemId]?.name)
+    const itemDescription = createHtml(itemData?.[itemId]?.description);
+    return (
+      <>
+        <div style={{textAlign:"center"}}>
+          <h4 style={{fontWeight:"bold"}}>{itemName}</h4>
+          <p dangerouslySetInnerHTML={itemDescription}></p>
+        </div>
+      </>
+    )
+  };
 
+  const handleUserClick = (summoner) => {
+    navigate(`/home/summoner/${summoner}`);
+  };
 
   const columns = [
     {
@@ -70,7 +96,7 @@ const MatchTable = ({ game, summonerName }) => {
               <Avatar
                 size={30}
                 shape="square"
-                src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${item?.championName}.png`}
+                src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/champion/${item?.championName}.png`}
               />
             </Badge>
           </>
@@ -84,7 +110,7 @@ const MatchTable = ({ game, summonerName }) => {
       render: (_, item) => {
         return (
           <>
-            <p style={{ margin: "0", textAlign:"center" }}><b>{item?.summonerName}</b></p>
+            <p style={{ margin: "0", textAlign:"center", cursor:"pointer" }}><b onClick={() => handleUserClick(item?.summonerName)}>{item?.summonerName}</b></p>
             <p style={{ margin: "0", textAlign:"center" }}>Level {item?.summonerLevel}</p>
           </>
         );
@@ -145,20 +171,22 @@ const MatchTable = ({ game, summonerName }) => {
     dataIndex: "Items",
     key: "Items",
     render: (_, item) => {
+        const itemIds = [item?.item0, item?.item1, item?.item2, item?.item3, item?.item4, item?.item5, item?.item6];
         return (
-            <>
-            <div style={{display:"flex"}}>
-                <Avatar style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${item?.item0}.png`}/>
-                <Avatar style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${item?.item1}.png`}/>
-                <Avatar style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${item?.item2}.png`}/>
-                <Avatar style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${item?.item3}.png`}/>
-                <Avatar style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${item?.item4}.png`}/>
-                <Avatar style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${item?.item5}.png`}/>
-                <Avatar style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${item?.item6}.png`}/>
-            </div>
-        </>
+          <div style={{ display: 'flex' }}>
+            {itemIds.map((itemId, index) => (
+              <Tooltip zIndex={"9999"} title={tooltip(itemId)}>
+                <Avatar
+                  key={index}
+                  style={{ marginRight: '2%' }}
+                  shape="square"
+                  src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/item/${itemId}.png`}
+                />
+              </Tooltip>
+            ))}
+        </div>
         );
-    },
+      },
     },
   ];
 

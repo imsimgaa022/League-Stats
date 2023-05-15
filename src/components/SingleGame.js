@@ -2,11 +2,12 @@ import React from "react";
 import { Collapse } from "antd";
 import MatchTable from "./MatchTable";
 import SingleGameHeader from "./SingleGameHeader";
-import LeftOutlined from "@ant-design/icons";
+import { useSelector } from "react-redux";
 
 const SingleGame = ({ game, summonerName, fetchGames, setGameCount }) => {
 
   const { Panel } = Collapse;
+  const itemData = useSelector((state) => state.items);
   let playerStats = game?.participants?.find(
     (object) => object.summonerName === summonerName
   );
@@ -25,11 +26,12 @@ const SingleGame = ({ game, summonerName, fetchGames, setGameCount }) => {
               playerStats={playerStats}
               game={game}
               summonerName={summonerName}
+              itemData={itemData}
             />
           }
           key={game?.gameId}
         >
-          <MatchTable game={game} summonerName={summonerName} />
+          <MatchTable itemData={itemData} game={game} summonerName={summonerName} />
         </Panel>
       </Collapse>
     </>

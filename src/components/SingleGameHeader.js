@@ -1,7 +1,10 @@
-import { Avatar, Badge, Col, Divider, Row, Tag } from "antd";
+import { Avatar, Badge, Col, Divider, Row, Tag, Tooltip } from "antd";
+import DOMPurify from "dompurify";
 import React from "react";
+import { useSelector } from "react-redux";
 
-const SingleGameHeader = ({ game, summonerName, playerStats }) => {
+const SingleGameHeader = ({ game, summonerName, playerStats, itemData }) => {
+  const patchVersion = useSelector((state) => state.patchVersion);
 
   let team1 = game?.participants?.slice(0, 5);
   let team2 = game?.participants?.slice(
@@ -69,6 +72,35 @@ const SingleGameHeader = ({ game, summonerName, playerStats }) => {
     return string;
   }
 
+  const createHtml =(description) => {
+    let sanitizedHTML = DOMPurify.sanitize(description);
+    let html = { __html: sanitizedHTML };
+    return html;
+  }
+
+  const tooltip = (itemId) => {
+    const itemName = (itemData?.[itemId]?.name)
+    const itemDescription = createHtml(itemData?.[itemId]?.description);
+    return (
+      <>
+        <div style={{textAlign:"center"}}>
+          <h4 style={{fontWeight:"bold"}}>{itemName}</h4>
+          <p dangerouslySetInnerHTML={itemDescription}></p>
+        </div>
+      </>
+    )
+  };
+
+  const playerItemsIds = [
+    playerStats?.item0,
+    playerStats?.item1,
+    playerStats?.item2,
+    playerStats?.item3,
+    playerStats?.item4,
+    playerStats?.item5,
+    playerStats?.item6,
+  ];
+
   return (
     <>
       <Row style={{color:"white"}}>
@@ -93,7 +125,7 @@ const SingleGameHeader = ({ game, summonerName, playerStats }) => {
             <Badge offset={[-35, 0]} count={playerStats?.champLevel}>
               <Avatar
                 size={70}
-                src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${playerStats?.championName}.png`}
+                src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/champion/${playerStats?.championName}.png`}
               />
             </Badge>
             <div style={{paddingLeft:"15%"}}>
@@ -103,13 +135,13 @@ const SingleGameHeader = ({ game, summonerName, playerStats }) => {
             </div>
           </div>
           <div style={{display:"flex"}}>
-                <Avatar size={25} style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${playerStats?.item0}.png`}/>
-                <Avatar size={25} style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${playerStats?.item1}.png`}/>
-                <Avatar size={25} style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${playerStats?.item2}.png`}/>
-                <Avatar size={25} style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${playerStats?.item3}.png`}/>
-                <Avatar size={25} style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${playerStats?.item4}.png`}/>
-                <Avatar size={25} style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${playerStats?.item5}.png`}/>
-                <Avatar size={25} style={{marginRight:"2%"}} src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${playerStats?.item6}.png`}/>
+              {playerItemsIds.map((item, i) => {
+                return (
+                  <Tooltip zIndex={"9999"} title={tooltip(item)}>
+                    <Avatar size={25} style={{marginRight:"2%"}} shape={`${i !== 6 ? "square" : ""}`} src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/item/${item}.png`}/>
+                  </Tooltip>
+                )  
+              })}
             </div>
         </Col>
         <Col span={5}>
@@ -122,14 +154,14 @@ const SingleGameHeader = ({ game, summonerName, playerStats }) => {
             <div style={{width:"50%"}}>
               {team1?.map((player, index)=>{
                 return (
-                  <div key={index} className="text-truncate"><Avatar size={20} style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${player?.championName}.png`}/>{player?.summonerName}</div>
+                  <div key={index} className="text-truncate"><Avatar size={20} style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/champion/${player?.championName}.png`}/>{player?.summonerName}</div>
                 )
               })}
             </div>
             <div style={{width:"50%"}}>
               {team2?.map((player, index)=>{
                 return (
-                  <div key={index} className="text-truncate"><Avatar size={20} style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${player?.championName}.png`}/>{player?.summonerName}</div>
+                  <div key={index} className="text-truncate"><Avatar size={20} style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/champion/${player?.championName}.png`}/>{player?.summonerName}</div>
                 )
               })}
             </div>

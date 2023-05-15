@@ -2,10 +2,11 @@ import { Button, Col, Input, Pagination, Row, Tabs, Tour } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
 
 const Champions = () => {
   const navigate = useNavigate();
-
+  const patchVerions = useSelector((state) => state.patchVersion)
   const [paginatedReuslts, setPaingatedResults] = useState();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTag, setSearchTag] = useState([]);
@@ -53,6 +54,7 @@ const Champions = () => {
       return false;
     });
   }
+  console.log(patchVerions)
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -70,11 +72,11 @@ const Champions = () => {
 
   useEffect(() => {
     fetch(
-      "https://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/champion.json"
+      `https://ddragon.leagueoflegends.com/cdn/${patchVerions}/data/en_US/champion.json`
     )
       .then((response) => response.json())
       .then((data) => setPaingatedResults(Object.values(data.data)))
-  }, []);
+  }, [patchVerions]);
 
   const handleClick = (key) => {
     navigate(`/home/champions/${key}`);

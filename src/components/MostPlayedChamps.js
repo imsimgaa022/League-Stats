@@ -1,8 +1,10 @@
 import { Col, Row } from "antd";
 import React from "react";
+import { useSelector } from "react-redux";
 import { CHAMP_ID_TO_NAME } from "../helpers/champIdToName";
 
 export const MostPlayedChamps = ({mostPlayedChamps, champ, index}) => {
+  const patchVersion = useSelector((state) => state.patchVersion);
   return (
     <>
     <Row style={{alignItems:"center", marginTop:"4%", color:"white"}} >
@@ -10,7 +12,7 @@ export const MostPlayedChamps = ({mostPlayedChamps, champ, index}) => {
         <span className="michroma-font">{index + 1}.</span>
       </Col>
       <Col span={6}>
-        <img width={"70%"} style={{borderRadius:"50%"}} alt="" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${CHAMP_ID_TO_NAME[champ?.championId]?.replace(/\s/g, "")}.png`}/>
+        <img width={"70%"} style={{borderRadius:"50%"}} alt="" src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/champion/${CHAMP_ID_TO_NAME[champ?.championId]?.replace(/\s/g, "")}.png`}/>
       </Col>
       <Col span={11}>
         <p style={{fontWeight:"bold"}} className="michroma-font">{CHAMP_ID_TO_NAME[champ?.championId]}</p>

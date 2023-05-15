@@ -1,10 +1,12 @@
 import { Col, Empty, Progress, Row } from "antd";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
   const [playerGames, setPlayerGames] = useState([]);
   const [topThree, setTopThree] = useState([]);
   const [roles, setRoles] = useState(null);
+  const patchVersion = useSelector((state) => state.patchVersion);
   let hasMatchHistory = !!playerGames?.length;
 
   useEffect(() => {
@@ -213,13 +215,13 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
                   Most played champions
                 </h3>
               </Row>
-              {topThree?.map((champ) => {
+              {topThree?.map((champ, i) => {
                 let singleChamp = champ?.game?.[champ?.name]?.[0];
                 let champGames = champ?.game?.[champ?.name];
                 let numberOfGames = champ?.game?.[champ?.name]?.length;
                 return (
                   <>
-                    <Row style={{ paddingBottom: "5%" }}>
+                    <Row key={i} style={{ paddingBottom: "5%" }}>
                       <Col
                         span={8}
                         style={{ display: "flex", alignItems: "center" }}
@@ -228,7 +230,7 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
                           alt=""
                           style={{ borderRadius: "50%" }}
                           width={25}
-                          src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${singleChamp?.championName}.png`}
+                          src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/champion/${singleChamp?.championName}.png`}
                         />
                         <span
                           style={{
@@ -285,7 +287,10 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
               </Row>
               <Row>
                 <Col span={3}>
-                  <img src="https://s-lol-web.op.gg/images/icon/icon-position-top.svg?v=1676864341669" alt=""/>
+                  <img
+                    src="https://s-lol-web.op.gg/images/icon/icon-position-top.svg?v=1676864341669"
+                    alt=""
+                  />
                 </Col>
                 <Col span={21}>
                   <Progress
@@ -300,7 +305,10 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
               </Row>
               <Row>
                 <Col span={3}>
-                  <img src="https://s-lol-web.op.gg/images/icon/icon-position-jungle.svg?v=1676864341669" alt=""/>
+                  <img
+                    src="https://s-lol-web.op.gg/images/icon/icon-position-jungle.svg?v=1676864341669"
+                    alt=""
+                  />
                 </Col>
                 <Col span={21}>
                   <Progress
@@ -315,7 +323,10 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
               </Row>
               <Row>
                 <Col span={3}>
-                  <img src="https://s-lol-web.op.gg/images/icon/icon-position-mid.svg?v=1676864341669" alt=""/>
+                  <img
+                    src="https://s-lol-web.op.gg/images/icon/icon-position-mid.svg?v=1676864341669"
+                    alt=""
+                  />
                 </Col>
                 <Col span={21}>
                   <Progress
@@ -330,7 +341,10 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
               </Row>
               <Row>
                 <Col span={3}>
-                  <img src="https://s-lol-web.op.gg/images/icon/icon-position-adc.svg?v=1676864341669" alt=""/>
+                  <img
+                    src="https://s-lol-web.op.gg/images/icon/icon-position-adc.svg?v=1676864341669"
+                    alt=""
+                  />
                 </Col>
                 <Col span={21}>
                   <Progress
@@ -345,7 +359,10 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
               </Row>
               <Row>
                 <Col span={3}>
-                  <img src="https://s-lol-web.op.gg/images/icon/icon-position-support.svg?v=1676864341669" alt=""/>
+                  <img
+                    src="https://s-lol-web.op.gg/images/icon/icon-position-support.svg?v=1676864341669"
+                    alt=""
+                  />
                 </Col>
                 <Col span={21}>
                   <Progress
@@ -362,9 +379,7 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
           </Row>
         </>
       ) : (
-          !isLoading && (
-              <Empty style={{marginTop:"3%"}} />
-          )
+        !isLoading && <Empty style={{ marginTop: "3%" }} />
       )}
     </>
   );

@@ -2,8 +2,10 @@ import { Button, Col, Progress, Row, Steps } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from 'dompurify';
+import { useSelector } from "react-redux";
 
 const SingleChampion = () => {
+  const patchVersion = useSelector((state) => state.patchVersion);
   const params = useParams();
   const navigate = useNavigate();
   const [champion, setChampion] = useState(null);
@@ -17,13 +19,15 @@ const SingleChampion = () => {
     // setActiveDot(champion?.[0]?.spells?.indexOf(activeSpell));
   }, [champion])
 
+  console.log(champion?.[0]?.spells)
+
   useEffect(() => {
     fetch(
-      `https://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/champion/${params?.id}.json`
+      `https://ddragon.leagueoflegends.com/cdn/${patchVersion}/data/en_US/champion/${params?.id}.json`
     )
       .then((response) => response.json())
       .then((data) => setChampion(Object.values(data.data)));
-  }, [params?.id]);
+  }, [params?.id, patchVersion]);
 
   const handleSpellClick = (spell) => {
     setActiveSpell(spell);
@@ -127,10 +131,10 @@ const SingleChampion = () => {
             <Row style={{width:"100%", justifyContent:"center", paddingTop:"4%"}}>
               <Col span={12}><h2 className="color-white abilities-header">Abilities</h2>
               <div className="flex-center">
-              <img style={{cursor:"pointer", margin:"0 auto"}} className={`${champion?.[0]?.passive?.["name"] === activeSpell?.["name"] && "active-spell"} spell-hover`} alt="spell" onClick={()=>handleSpellClick(champion?.[0]?.passive)} src={`/images/passive/${champion?.[0]?.passive?.image?.full}`}/>
+              <img style={{cursor:"pointer", margin:"0 auto"}} className={`${champion?.[0]?.passive?.["name"] === activeSpell?.["name"] && "active-spell"} spell-hover`} alt="spell" onClick={()=>handleSpellClick(champion?.[0]?.passive)} src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/passive/${champion?.[0]?.passive?.image?.full}`}/>
               {champion?.[0]?.spells?.map((spell, index)=>{
                 return (
-                    <img key={index} style={{cursor:"pointer", margin:"0 auto"}} className={`${spell?.["name"] === activeSpell?.["name"] && "active-spell"} spell-hover`} alt="spell" onClick={()=>handleSpellClick(spell)} src={`/images/spell/${spell?.image?.full}`}/>
+                    <img key={index} style={{cursor:"pointer", margin:"0 auto"}} className={`${spell?.["name"] === activeSpell?.["name"] && "active-spell"} spell-hover`} alt="spell" onClick={()=>handleSpellClick(spell)} src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/spell/${spell?.image?.full}`}/>
                 )
               })}
               </div>
