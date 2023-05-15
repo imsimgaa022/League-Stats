@@ -54,7 +54,6 @@ const Champions = () => {
       return false;
     });
   }
-  console.log(patchVerions)
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);

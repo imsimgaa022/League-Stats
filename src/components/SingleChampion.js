@@ -19,7 +19,6 @@ const SingleChampion = () => {
     // setActiveDot(champion?.[0]?.spells?.indexOf(activeSpell));
   }, [champion])
 
-  console.log(champion?.[0]?.spells)
 
   useEffect(() => {
     fetch(
