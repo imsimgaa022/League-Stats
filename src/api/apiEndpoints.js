@@ -45,7 +45,7 @@ class RiotApiService {
   }
 
   async getItemData() {
-    const response = await axios.get('http://ddragon.leagueoflegends.com/cdn/13.9.1/data/en_US/item.json');
+    const response = await axios.get('https://ddragon.leagueoflegends.com/cdn/13.9.1/data/en_US/item.json');
     return response.data;
   };
 
