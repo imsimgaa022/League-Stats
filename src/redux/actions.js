@@ -7,6 +7,8 @@ export const GET_ITEM_DATA = "GET_ITEM_DATA";
 export const SET_ITEM_DATA = "SET_ITEM_DATA";
 export const GET_PATCH_VERSION = "GET_PATCH_VERSION";
 export const SET_PATCH_VERSION = "SET_PATCH_VERSION";
+export const GET_CHALLANGER_QUE = "GET_CHALLANGER_QUE";
+export const SET_CHALLANGER_QUE = "SET_CHALLANGER_QUE";
 
 export const fetchAllData = (payload) => ({
   type: FETCH_ALL_DATA,
@@ -47,4 +49,14 @@ export const getPatchVersion = () => ({
 export const setPatchVersion = (payload) => ({
   type: SET_PATCH_VERSION,
   payload: payload
+});
+
+export const getChallangerQue = (payload) => ({
+  type: GET_CHALLANGER_QUE,
+  payload: payload
+});
+
+export const setChallangerQue = (payload) => ({
+  type: SET_CHALLANGER_QUE,
+  payload: payload,
 });

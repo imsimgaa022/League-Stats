@@ -1,11 +1,14 @@
-import { Avatar, Badge, Col, Progress, Row, Table, Tooltip } from "antd";
+import { Avatar, Badge, Progress, Tabs, Tooltip } from "antd";
 import DOMPurify from "dompurify";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import ScoreBoardTable from "./ScoreBoardTable";
+import TeamAnalysis from "./TeamAnalysis";
 
 const MatchTable = ({ game, summonerName, itemData }) => {
   let navigate = useNavigate();
+  const [activeKey, setActiveKey] = useState("1");
   const patchVersion = useSelector((state) => state.patchVersion);
 
   let participants = game?.participants;
@@ -15,19 +18,12 @@ const MatchTable = ({ game, summonerName, itemData }) => {
     participants?.length
   );
 
-  const calculateTeamKills = (team) => {
-    let kills = 0;
+  const calculateTeamStat = (team, stat) => {
+    let count = 0;
     for (var i = 0; i < team.length; i++) {
-      kills += team[i].kills;
+      count += team[i]?.[stat];
     }
-    return kills;
-  };
-  const calculateTeamGold = (team) => {
-    let gold = 0;
-    for (var i = 0; i < team.length; i++) {
-      gold += team[i].goldEarned;
-    }
-    return gold;
+    return count;
   };
 
   const maxDamgeInTeam = (list) => {
@@ -190,84 +186,30 @@ const MatchTable = ({ game, summonerName, itemData }) => {
     },
   ];
 
+  const items = [
+    {
+      key: "1",
+      label: `Scoreboard`,
+      children: (
+        <ScoreBoardTable summonerName={summonerName} team1={team1} columns={columns} game={game} calculateTeamStat={calculateTeamStat} team2={team2}/>
+      ),
+    },
+    {
+      key: "2",
+      label: `Team Analysis`,
+      children: (
+        <TeamAnalysis game={game} team1={team1} team2={team2} calculateTeamStat={calculateTeamStat}/>
+      ),
+    },
+  ];
+
+  const onChange = (value) => {
+    setActiveKey(value);
+  };
+
   return (
     <>
-      <Table
-        rowKey={(record) => record?.summonerName}
-        className="table-style"
-        bordered={false}
-        rowClassName={(record, index) =>
-          `${record?.win ? "bg-blue" : "bg-red"} ${
-            record?.summonerName === summonerName && "bg-gold" 
-          }`
-        }
-        size="small"
-        pagination={false}
-        dataSource={team1}
-        columns={columns}
-      />
-      <div className={game?.teams[0]?.win ? "middle-row-color-win" : "middle-row-color-lose"}>
-          <Row>
-              <Col span={5} className="flex-center">
-                  <span style={{paddingRight:"3%"}}>{game?.teams?.[0]?.objectives?.baron?.kills}</span><img alt="" src="https://s-lol-web.op.gg/images/icon/icon-baron-r.svg?v=1676591616266"/>
-                  <span style={{paddingLeft:"5%", paddingRight:"3%"}}>{game?.teams?.[0]?.objectives?.dragon?.kills}</span><img alt="" src="https://s-lol-web.op.gg/images/icon/icon-dragon-r.svg?v=1676591616266"/>
-                  <span style={{paddingLeft:"5%"}}>{game?.teams?.[0]?.objectives?.tower?.kills}</span><img alt="" src="https://s-lol-web.op.gg/images/icon/icon-tower-r.svg?v=1676591616266"/>
-               </Col>
-              <Col span={14}>
-              <div className="flex-center" style={{ justifyContent: "space-evenly" }}>
-          <span>{`(kills)`}{calculateTeamKills(team1)}</span>
-          <Progress
-            style={{ width: "60%" }}
-            className={game?.teams[0]?.win ? "progres-color-win" : "progres-color-lose"}
-            strokeColor={game?.teams[0]?.win ? "red" : "blue"}
-            showInfo={false}
-            percent={100}
-            success={{
-              percent:
-                (calculateTeamKills(team1) /
-                  (calculateTeamKills(team1) + calculateTeamKills(team2))) *
-                100,
-            }}
-          />
-          <span>{calculateTeamKills(team2)}{`(kills)`}</span>
-        </div>
-        <div className="flex-center" style={{ justifyContent: "space-evenly" }}>
-          <span>{`(gold)`}{calculateTeamGold(team1)}</span>
-          <Progress
-            style={{ width: "60%" }}
-            className={game?.teams[1]?.win ? "progres-color-lose" : "progres-color-win"}
-            strokeColor={game?.teams[1]?.win ? "blue" : "red"}
-            showInfo={false}
-            percent={100}
-            success={{
-              percent:
-                (calculateTeamGold(team1) /
-                  (calculateTeamGold(team1) + calculateTeamGold(team2))) *
-                100,
-            }}
-          />
-          <span>{calculateTeamGold(team2)}{`(gold)`}</span>
-        </div>
-              </Col>
-              <Col span={5} className="flex-center">
-                <span style={{paddingRight:"3%"}}>{game?.teams?.[1]?.objectives?.baron?.kills}</span><img alt="" src="https://s-lol-web.op.gg/images/icon/icon-baron-r.svg?v=1676591616266"/>
-                <span style={{paddingLeft:"5%", paddingRight:"3%"}}>{game?.teams?.[1]?.objectives?.dragon?.kills}</span><img alt="" src="https://s-lol-web.op.gg/images/icon/icon-dragon-r.svg?v=1676591616266"/>
-                <span style={{paddingLeft:"5%"}}>{game?.teams?.[1]?.objectives?.tower?.kills}</span><img alt="" src="https://s-lol-web.op.gg/images/icon/icon-tower-r.svg?v=1676591616266"/>
-              </Col>
-          </Row>
-      </div>
-      <Table
-        rowKey={(record) => record?.summonerName}
-        className="table-style"
-        bordered={false}
-        rowClassName={(record, index) =>
-          `${record?.win ? "bg-blue" : "bg-red"} ${record?.summonerName === summonerName && "bg-gold"}`
-        }
-        size="small"
-        pagination={false}
-        dataSource={team2}
-        columns={columns}
-      />
+      <Tabs className="match-tabs" activeKey={activeKey} defaultActiveKey="1" items={items} onChange={onChange} />
     </>
   );
 };

@@ -71,6 +71,22 @@ h1 {
   font-weight: bold;
 }
 
+.match-tabs .ant-tabs-tab {
+  color: purple;
+  opacity: 0.8;
+  font-weight: bold;
+}
+
+.match-tabs .ant-tabs-nav-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.match-tabs .ant-tabs-tab.ant-tabs-tab-active {
+  color: purple !important;
+  opacity: 1;
+}
+
 .overal-tabs .ant-tabs-ink-bar {
   position: absolute;
   background: purple;
@@ -99,6 +115,10 @@ h1 {
 .custom-pagination .ant-pagination-item-link > span {
   /* background-color: purple; */
   color: white;
+}
+
+.custom-pagination .ant-pagination-item-ellipsis {
+  color: white !important;
 }
 
 .animation-div {
@@ -688,4 +708,51 @@ h1 {
   animation-duration: 1s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
+}
+
+.challanger-player {
+  color: #e1e1e1;
+  font-weight: 600;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 7px 0;
+  border-radius: 5px;
+  background-color: #7a6b83;
+  padding: 8px 0;
+}
+
+.challanger-table-head {
+  color: #e1e1e1;
+  font-weight: 600;
+  box-sizing: border-box;
+  background-color: #755c83;
+  padding: 12px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 7px 0;
+  border-radius: 5px;
+}
+
+.ant-select-selector {
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  border: none !important;
+  outline: none !important;
+  background-color: #7a6b83 !important;
+  border-radius: 5px !important;
+  color: #e1e1e1 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important; 
+}
+
+.challanger-name-style {
+  color: #e1e1e1;
+  font-weight: 600;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
 }

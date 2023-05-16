@@ -1,4 +1,4 @@
-import { FETCH_ALL_DATA, FETCH_ALL_DATA_FAILURE, FETCH_ALL_DATA_SUCCESS, RESET_USER_DATA, SET_ITEM_DATA, SET_PATCH_VERSION } from "./actions";
+import { FETCH_ALL_DATA, FETCH_ALL_DATA_FAILURE, FETCH_ALL_DATA_SUCCESS, GET_CHALLANGER_QUE, RESET_USER_DATA, SET_CHALLANGER_QUE, SET_ITEM_DATA, SET_PATCH_VERSION } from "./actions";
 
 const initialState = {
   isLoading: true,
@@ -6,8 +6,9 @@ const initialState = {
   error: null,
   items: null,
   patchVersion: null,
+  challangerQue: null,
 };
-
+//create more reducers to store different data
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ALL_DATA:
@@ -22,6 +23,10 @@ export const reducer = (state = initialState, action) => {
       return {...state, items: action.payload};
     case SET_PATCH_VERSION:
       return {...state, patchVersion: action.payload.data[0]};
+    case GET_CHALLANGER_QUE:
+      return {...state, isLoading: true};
+    case SET_CHALLANGER_QUE:
+      return {...state, isLoading: false, challangerQue: action.payload};
     default:
       return state;
   }

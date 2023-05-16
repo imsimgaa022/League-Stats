@@ -1,4 +1,5 @@
 export const CHAMP_ID_TO_NAME = {
+  902: "Milio",
   266: "Aatrox",
   103: "Ahri",
   84: "Akali",
@@ -62,7 +63,7 @@ export const CHAMP_ID_TO_NAME = {
   121: "Khazix",
   203: "Kindred",
   240: "Kled",
-  96: "Kog'Maw",
+  96: "KogMaw",
   897: "KSante",
   7: "LeBlanc",
   64: "Lee Sin",

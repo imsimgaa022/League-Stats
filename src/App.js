@@ -8,6 +8,7 @@ import SummonerInfo from "./components/SummonerInfo";
 import { useDispatch } from "react-redux";
 import { getPatchVersion } from "./redux/actions";
 import { useEffect } from "react";
+import Leaderboard from "./components/leaderboard/Leaderboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<Welcome/>}/>
         <Route path="/home" element={<NavBar/>}>
           <Route index={true}/>
+          <Route index={false} path="leaderboard" element={<Leaderboard/>} />
           <Route
             index={false}
             path="champions"

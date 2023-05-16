@@ -54,6 +54,11 @@ class RiotApiService {
     return response;
   }
 
+  getChallangerQue = async (que) => {
+    const response = await axios.get(`https://eun1.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/${que}?api_key=${this.apiKey}`)
+    return response.data.entries;
+  }
+
    fetchAllData = async (summonerName) => {
     const user = await this.getUserByName(summonerName);
     const ranks = await this.getUserRanks(user.id);

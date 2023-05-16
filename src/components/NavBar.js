@@ -14,6 +14,9 @@ const NavBar = () => {
     } else if (key === "summoner") {
       setActiveKey("summoner")
       navigate(`/home/${key}/${summoner_name}`);
+    } else if (key === "leaderboard") {
+      setActiveKey("leaderboard")
+      navigate(`/home/${key}`)
     } else {
       navigate(`/home/${key}`);
       setActiveKey("champions")
@@ -21,7 +24,8 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    setActiveKey(params?.name ? "summoner" : "champions");
+    params?.name && setActiveKey("summoner")
+    params?.id && setActiveKey("champions")
   }, [params])
 
   const items = [
@@ -32,6 +36,10 @@ const NavBar = () => {
     {
       key: "summoner",
       label: `SUMMONER`,
+    },
+    {
+      key: "leaderboard",
+      label: "Leaderboard"
     },
     {
       key: "champions",

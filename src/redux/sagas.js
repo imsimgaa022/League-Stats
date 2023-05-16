@@ -4,10 +4,12 @@ import {
   fetchAllDataFailure,
   fetchAllDataSuccess,
   FETCH_ALL_DATA,
+  GET_CHALLANGER_QUE,
   GET_ITEM_DATA,
   GET_PATCH_VERSION,
   resetUserData,
   RESET_USER,
+  setChallangerQue,
   setItemData,
   setPatchVersion,
 } from "./actions";
@@ -47,11 +49,21 @@ function* getPatchVersionSaga() {
   }
 };
 
+function* getChallangerQueSaga({ payload }) {
+  try {
+    const data = yield call(RiotApiService.getChallangerQue, payload.que);
+    yield put(setChallangerQue(data));
+  } catch (err) {
+    console.log(err);
+  };
+};
+
 export function* rootSaga() {
   yield all([
     takeEvery(FETCH_ALL_DATA, fetchAllDataSaga),
     takeEvery(RESET_USER, resetUserSaga),
     takeEvery(GET_ITEM_DATA, fetchItemDataSaga),
     takeEvery(GET_PATCH_VERSION, getPatchVersionSaga),
+    takeEvery(GET_CHALLANGER_QUE, getChallangerQueSaga),
   ]);
-}
+};
