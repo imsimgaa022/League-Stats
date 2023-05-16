@@ -125,7 +125,7 @@ const SingleGameHeader = ({ game, summonerName, playerStats, itemData }) => {
             <Badge offset={[-35, 0]} count={playerStats?.champLevel}>
               <Avatar
                 size={70}
-                src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/champion/${playerStats?.championName}.png`}
+                src={`https://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/champion/${playerStats?.championName}.png`}
               />
             </Badge>
             <div style={{paddingLeft:"15%"}}>
@@ -137,8 +137,8 @@ const SingleGameHeader = ({ game, summonerName, playerStats, itemData }) => {
           <div style={{display:"flex"}}>
               {playerItemsIds.map((item, i) => {
                 return (
-                  <Tooltip zIndex={"9999"} title={tooltip(item)}>
-                    <Avatar size={25} style={{marginRight:"2%"}} shape={`${i !== 6 ? "square" : ""}`} src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/item/${item}.png`}/>
+                  <Tooltip zIndex={"9999"} title={tooltip(item)} key={i}>
+                    <Avatar size={25} style={{marginRight:"2%"}} shape={`${i !== 6 ? "square" : ""}`} src={`https://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/item/${item}.png`}/>
                   </Tooltip>
                 )  
               })}
@@ -154,14 +154,14 @@ const SingleGameHeader = ({ game, summonerName, playerStats, itemData }) => {
             <div style={{width:"50%"}}>
               {team1?.map((player, index)=>{
                 return (
-                  <div key={index} className="text-truncate"><Avatar size={20} style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/champion/${player?.championName}.png`}/>{player?.summonerName}</div>
+                  <div key={index} className="text-truncate"><Avatar size={20} style={{marginRight:"2%"}} shape="square" src={`https://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/champion/${player?.championName}.png`}/>{player?.summonerName}</div>
                 )
               })}
             </div>
             <div style={{width:"50%"}}>
               {team2?.map((player, index)=>{
                 return (
-                  <div key={index} className="text-truncate"><Avatar size={20} style={{marginRight:"2%"}} shape="square" src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/champion/${player?.championName}.png`}/>{player?.summonerName}</div>
+                  <div key={index} className="text-truncate"><Avatar size={20} style={{marginRight:"2%"}} shape="square" src={`https://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/champion/${player?.championName}.png`}/>{player?.summonerName}</div>
                 )
               })}
             </div>

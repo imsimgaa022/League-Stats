@@ -123,7 +123,7 @@ const SummonerInfo = () => {
                       
                       <div style={{position: "relative"}}>
                         <img style={{zIndex:"1000", position:"relative"}} width={"200px"} alt="" src={renderAvatarIcon(summoner?.summonerLevel)}/>
-                        <img style={{position:"absolute", top:"24%", left:"25%", borderRadius:"50%"}} width={"100px"} alt="" src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/profileicon/${summoner?.profileIconId}.png`}/>
+                        <img style={{position:"absolute", top:"24%", left:"25%", borderRadius:"50%"}} width={"100px"} alt="" src={`https://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/profileicon/${summoner?.profileIconId}.png`}/>
                         <span style={{position:"absolute", bottom:"17%", left:"44%", color:"white", zIndex:"2000"}}>{summoner?.summonerLevel}</span>
                       </div>
                       <p
@@ -172,13 +172,13 @@ const SummonerInfo = () => {
                 </Row>
                 {mostPlayedChamps?.length ? mostPlayedChamps?.map((champ, index) => {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <MostPlayedChamps
                         champ={champ}
                         index={index}
                         mostPlayedChamps={mostPlayedChamps}
                       />
-                    </>
+                    </React.Fragment>
                   );
                 }) : (<Empty style={{marginTop:"5%"}}></Empty>)}
                 </Col>

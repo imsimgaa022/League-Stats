@@ -11,14 +11,13 @@ export const MatchHistory = ({ summonerName, summoner, matchList, isLoading, fet
       <div>
           {singleGame?.map((game, index)=>{
             return (
-              <>
+              <React.Fragment key={index}>
                 <SingleGame 
                 key={index}
-                // setGameCount={setGameCount}
                 fetchGames={fetchGames}
                 game={game?.info}
                 summonerName={summonerName}/>
-              </>
+              </React.Fragment>
             )
           })}
       </div>

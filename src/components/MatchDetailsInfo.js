@@ -83,16 +83,16 @@ const MatchDetailsInfo = ({
         <Col span={6}>Ratio</Col>
       </Row>
       <Row style={{flexDirection:"column"}}>
-      {topThree?.map((item) => {
+      {topThree?.map((item, i) => {
         return (
-          <>
+          <React.Fragment key={i}>
           <div className={`${((item?.winCount / item?.count) * 100).toFixed(0) >= 50 ? "green-wr" : "red-wr"}`} style={{display:"flex", alignItems:"center", marginBottom:"3%", padding:"1%", borderRadius:"15px"}}>
             <Col className="michroma-font-white" span={6}>{item?.name}</Col>
             <Col className="michroma-font-white" span={6}>{item?.count}</Col>
             <Col className="michroma-font-white" span={6}>{item?.winCount} - {item?.count - item?.winCount}</Col>
             <Col span={6}><span className="michroma-font-white">{((item?.winCount / item?.count) * 100).toFixed(0)}</span> <span style={{color:"white"}}>%</span> </Col>
           </div>
-          </>
+          </React.Fragment>
         )
       })}
       </Row>

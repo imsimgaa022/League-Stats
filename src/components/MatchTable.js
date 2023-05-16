@@ -174,10 +174,10 @@ const MatchTable = ({ game, summonerName, itemData }) => {
         const itemIds = [item?.item0, item?.item1, item?.item2, item?.item3, item?.item4, item?.item5, item?.item6];
         return (
           <div style={{ display: 'flex' }}>
-            {itemIds.map((itemId, index) => (
-              <Tooltip zIndex={"9999"} title={tooltip(itemId)}>
+            {itemIds.map((itemId, i) => (
+              <Tooltip zIndex={"9999"} title={tooltip(itemId)} key={i}>
                 <Avatar
-                  key={index}
+                  key={i}
                   style={{ marginRight: '2%' }}
                   shape="square"
                   src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/item/${itemId}.png`}
@@ -193,6 +193,7 @@ const MatchTable = ({ game, summonerName, itemData }) => {
   return (
     <>
       <Table
+        rowKey={(record) => record?.summonerName}
         className="table-style"
         bordered={false}
         rowClassName={(record, index) =>
@@ -256,6 +257,7 @@ const MatchTable = ({ game, summonerName, itemData }) => {
           </Row>
       </div>
       <Table
+        rowKey={(record) => record?.summonerName}
         className="table-style"
         bordered={false}
         rowClassName={(record, index) =>

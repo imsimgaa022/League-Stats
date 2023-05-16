@@ -220,8 +220,8 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
                 let champGames = champ?.game?.[champ?.name];
                 let numberOfGames = champ?.game?.[champ?.name]?.length;
                 return (
-                  <>
-                    <Row key={i} style={{ paddingBottom: "5%" }}>
+                  <React.Fragment key={i}>
+                    <Row style={{ paddingBottom: "5%" }}>
                       <Col
                         span={8}
                         style={{ display: "flex", alignItems: "center" }}
@@ -236,46 +236,26 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
                           style={{
                             paddingLeft: "5%",
                             color:
-                              (
-                                (calculateChampWins(champGames) /
-                                  numberOfGames) *
-                                100
-                              ).toFixed(0) >= 75
+                              ((calculateChampWins(champGames) / numberOfGames) * 100).toFixed(0) >= 75
                                 ? "red"
                                 : "white",
-                          }}
+                              }}
                         >
                           {(
-                            (calculateChampWins(champGames) / numberOfGames) *
-                            100
-                          ).toFixed(0)}{" "}
-                          %
+                            (calculateChampWins(champGames) / numberOfGames) * 100).toFixed(0)}{" "}%
                         </span>
                       </Col>
-                      <Col
-                        span={12}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-around",
-                          color: "white",
-                        }}
-                      >
+                      <Col span={12} style={{display: "flex", alignItems: "center", justifyContent: "space-around", color: "white"}}>
                         <div>
                           ({calculateChampWins(champGames)}W{" "}
                           {numberOfGames - calculateChampWins(champGames)}L)
                         </div>
-                        <div
-                          style={{
-                            fontWeight: "bold",
-                            color: kdaTextColor(calculateChampKda(champGames)),
-                          }}
-                        >
+                        <div style={{ fontWeight: "bold", color: kdaTextColor(calculateChampKda(champGames))}}>
                           {calculateChampKda(champGames)} KDA
                         </div>
                       </Col>
                     </Row>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </Col>
