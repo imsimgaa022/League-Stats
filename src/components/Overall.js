@@ -129,10 +129,7 @@ const Overall = ({ summoner, summonerName, singleGame, isLoading }) => {
   };
 
   const calculateChampKda = (games) => {
-    return `${(
-      (calculateChampsKills(games) + calculateChampsAssists(games)) /
-      calculateChampsDeaths(games)
-    ).toFixed(2)}`;
+    return `${((calculateChampsKills(games) + calculateChampsAssists(games)) / calculateChampsDeaths(games)).toFixed(2)}`;
   };
 
   const kdaTextColor = (kda) => {

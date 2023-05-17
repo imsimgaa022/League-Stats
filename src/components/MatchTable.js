@@ -3,6 +3,7 @@ import DOMPurify from "dompurify";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import ChartComponent from "./Chart";
 import ScoreBoardTable from "./ScoreBoardTable";
 import TeamAnalysis from "./TeamAnalysis";
 
@@ -48,8 +49,11 @@ const MatchTable = ({ game, summonerName, itemData }) => {
       case kda > 3.5 && kda < 4.5:
         color = "blue"
         break;
-      case kda > 4.5:
-        color = "orange"
+      case kda === "Infinity":
+        color = "purple"
+        break;
+      case kda >= 4.5:
+        color = "yellow"
         break;
       default:
         color = "gray"
@@ -79,6 +83,16 @@ const MatchTable = ({ game, summonerName, itemData }) => {
 
   const handleUserClick = (summoner) => {
     navigate(`/home/summoner/${summoner}`);
+  };
+
+  const calculateKda = (item) => {
+    let kda = ((item?.kills + item?.assists)/ item?.deaths).toFixed(2);
+    if (kda === "Infinity") {
+      kda = "Perfect"
+    } else {
+      kda = `${kda} : 1`
+    }
+    return kda
   };
 
   const columns = [
@@ -121,7 +135,7 @@ const MatchTable = ({ game, summonerName, itemData }) => {
           <span className="mb-0 payment-columns">
             {item?.kills} / <span className="red-text">{item?.deaths}</span> / {item?.assists}
             <p style={{margin:"0px", color:kdaTextColor(((item?.kills + item?.assists)/ item?.deaths).toFixed(2))}}>
-              <b>{((item?.kills + item?.assists)/ item?.deaths).toFixed(2)} : 1</b>
+              <b>{calculateKda(item)}</b>
             </p>
           </span>
         );
@@ -201,6 +215,13 @@ const MatchTable = ({ game, summonerName, itemData }) => {
         <TeamAnalysis game={game} team1={team1} team2={team2} calculateTeamStat={calculateTeamStat}/>
       ),
     },
+    {
+      key: "3",
+      label: "Gold timeline",
+      children: (
+        <ChartComponent game={game}/>
+      )
+    }
   ];
 
   const onChange = (value) => {

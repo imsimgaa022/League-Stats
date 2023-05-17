@@ -7,18 +7,26 @@ import SingleSummonerData from "./SingleSummonerData";
 const Leaderboard = () => {
   const dispatch = useDispatch();
   const [selectedQue, setSelectedQue] = useState("RANKED_SOLO_5x5");
+  const [selectedLeague, setSelectedLeague] = useState("challenger");
   const [page, setPage] = useState(1);
   const data = useSelector((state) => state.challangerQue);
+  const isLoading = useSelector((state) => state.isLoading);
 
   useEffect(() => {
     const payload = {
       que: selectedQue,
+      league: selectedLeague
     };
     dispatch(getChallangerQue(payload));
-  }, [selectedQue, dispatch]);
+  }, [selectedQue, dispatch, selectedLeague]);
 
   const handleSelectChange = (value) => {
     setSelectedQue(value);
+    setPage(1);
+  };
+
+  const handleLeagueChange = (value) => {
+    setSelectedLeague(value);
     setPage(1);
   };
 
@@ -33,6 +41,21 @@ const Leaderboard = () => {
     },
   ];
 
+  const leagueOptions = [
+    {
+      value: "challenger",
+      label: "Challenger",
+    },
+    {
+      value: "grandmaster",
+      label: "Grandmaster",
+    },
+    {
+      value: "master",
+      label: "Master",
+    },
+  ]
+
   return (
     <>
           <div
@@ -44,15 +67,24 @@ const Leaderboard = () => {
             }}
           >
             <div style={{overflow: "scroll"}}>
-              {data ? (
+              {data && !isLoading ? (
                 <>
               <Row justify={"center"} style={{paddingTop:"2%", paddingBottom:"1%"}}>
                 <Select
                   className="que-select"
-                  style={{width:"200px", textAlign:"center"}}
+                  style={{width:"200px", textAlign:"center", marginRight:"2%"}}
                   defaultValue={selectedQue}
                   onChange={handleSelectChange}
                   options={selectOptions}
+                  size="large"
+                />
+                <Select
+                  className="que-select"
+                  style={{width:"200px", textAlign:"center", marginLeft:"2%"}}
+                  defaultValue={selectedLeague}
+                  onChange={handleLeagueChange}
+                  options={leagueOptions}
+                  size="large"
                 />
               </Row>
               <Row justify={"center"}>

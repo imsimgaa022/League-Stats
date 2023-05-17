@@ -51,7 +51,7 @@ function* getPatchVersionSaga() {
 
 function* getChallangerQueSaga({ payload }) {
   try {
-    const data = yield call(RiotApiService.getChallangerQue, payload.que);
+    const data = yield call(RiotApiService.getChallangerQue, payload.que, payload.league);
     yield put(setChallangerQue(data));
   } catch (err) {
     console.log(err);

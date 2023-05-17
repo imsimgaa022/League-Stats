@@ -54,8 +54,8 @@ class RiotApiService {
     return response;
   }
 
-  getChallangerQue = async (que) => {
-    const response = await axios.get(`https://eun1.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/${que}?api_key=${this.apiKey}`)
+  getChallangerQue = async (que, league) => {
+    const response = await axios.get(`https://eun1.api.riotgames.com/lol/league/v4/${league}leagues/by-queue/${que}?api_key=${this.apiKey}`)
     return response.data.entries;
   }
 

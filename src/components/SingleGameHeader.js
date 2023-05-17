@@ -101,6 +101,16 @@ const SingleGameHeader = ({ game, summonerName, playerStats, itemData }) => {
     playerStats?.item6,
   ];
 
+  const calculateKda = (item) => {
+    let kda = ((item?.kills + item?.assists)/ item?.deaths).toFixed(2);
+    if (!item?.deaths) {
+      kda = "Perfect"
+    } else{
+      kda = `${kda} : 1`
+    }
+    return kda
+  }
+
   return (
     <>
       <Row style={{color:"white"}}>
@@ -130,7 +140,7 @@ const SingleGameHeader = ({ game, summonerName, playerStats, itemData }) => {
             </Badge>
             <div style={{paddingLeft:"15%"}}>
             <p style={{margin:"0px", fontWeight:"bold"}}>{playerStats?.kills} / <span style={{color:"red"}}>{playerStats?.deaths}</span> / {playerStats?.assists}</p>
-            <p style={{margin:"0px"}}>{((playerStats?.kills + playerStats?.assists)/ playerStats?.deaths).toFixed(2)}:1 KDA</p>
+            <p style={{margin:"0px"}}>{calculateKda(playerStats)}</p>
             {renderKillTags()}
             </div>
           </div>
