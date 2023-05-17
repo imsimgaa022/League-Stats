@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 export async function handler(event, context) {
   const { commitId, commitMessage, branch } = JSON.parse(event.body);
