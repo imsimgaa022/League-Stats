@@ -4,7 +4,6 @@ export async function handler(event, context) {
   const { commitId, commitMessage, branch } = JSON.parse(event.body);
 
   const message = `New deployment on branch ${branch}\nCommit ID: ${commitId}\nCommit Message: ${commitMessage}`;
-  console.log('test2')
   try {
     await axios.post("https://discordapp.com/api/webhooks/1108403114144436234/De4boyqEmarsQ8qQJyXrt0jmpF--guZeANbdmbjNcFFRkl9MdDt_wJQpbAlh7qHi7nuG", { content: "Just a test deploy" });
 
