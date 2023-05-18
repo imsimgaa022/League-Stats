@@ -65,7 +65,7 @@ export const CHAMP_ID_TO_NAME = {
   240: "Kled",
   96: "KogMaw",
   897: "KSante",
-  7: "LeBlanc",
+  7: "Leblanc",
   64: "Lee Sin",
   89: "Leona",
   876: "Lillia",

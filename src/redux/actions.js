@@ -9,6 +9,10 @@ export const GET_PATCH_VERSION = "GET_PATCH_VERSION";
 export const SET_PATCH_VERSION = "SET_PATCH_VERSION";
 export const GET_CHALLANGER_QUE = "GET_CHALLANGER_QUE";
 export const SET_CHALLANGER_QUE = "SET_CHALLANGER_QUE";
+export const GET_SUMMONER_SPELLS = "GET_SUMMONER_SPELLS";
+export const SET_SUMMONER_SPELLS = "SET_SUMMONER_SPELLS";
+export const GET_USER_LIVE_GAME = "GET_USER_LIVE_GAME";
+export const SET_USER_LIVE_GAME = "SET_USER_LIVE_GAME";
 
 export const fetchAllData = (payload) => ({
   type: FETCH_ALL_DATA,
@@ -59,4 +63,24 @@ export const getChallangerQue = (payload) => ({
 export const setChallangerQue = (payload) => ({
   type: SET_CHALLANGER_QUE,
   payload: payload,
+});
+
+export const getSummonerSpells = (payload) => ({
+  type: GET_SUMMONER_SPELLS,
+  payload: payload,
+});
+
+export const setSummonerSpells = (payload) => ({
+  type: SET_SUMMONER_SPELLS,
+  payload: payload,
+});
+
+export const getUserLiveGame = (payload) => ({
+  type: GET_USER_LIVE_GAME,
+  payload: payload,
+});
+
+export const setUserLiveGame = (payload) => ({
+  type: SET_USER_LIVE_GAME,
+  payload: payload
 });

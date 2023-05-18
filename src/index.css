@@ -469,6 +469,14 @@ h1 {
   color: #D31A45;
 }
 
+.text-lose {
+  color: orange;
+}
+
+.text-win {
+  color: greenyellow;
+}
+
 .blue-dot {
   height: 18px;
   width: 18px;
@@ -755,4 +763,62 @@ h1 {
   margin: 0;
   padding: 0;
   font-size: 18px;
+}
+
+.live-game-div-blue {
+  color: #e1e1e1;
+  box-sizing: border-box;
+  margin: 0;
+  display: flex;
+  background-image: linear-gradient(90deg,rgba(1,39,97,.3),#7a6b83 75%);
+  border-radius: 8px;
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 10px 15px;
+}
+
+.live-game-div {
+  color: #e1e1e1;
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: bold;
+  display: flex;
+  background-image: linear-gradient(90deg,#7a6b83 50%,rgba(140,0,0,.3) 50%);
+  border-radius: 8px;
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 10px 15px;
+}
+
+.live-game-div-red {
+  color: #e1e1e1;
+  box-sizing: border-box;
+  margin: 0;
+  display: flex;
+  background-image: linear-gradient(90deg,rgba(140,0,0,.3),#7a6b83 75%);
+  border-radius: 8px;
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 10px 15px;
+}
+
+.live-summoner {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #5786cc;
+  font-weight: 700;
+}
+
+.banned-champion {
+  color: #e1e1e1;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  width: 50px;
+  height: auto;
+  border-radius: 50%;
+  border: 3px solid #2d5179;
+  margin-right: 5px;
+  filter: grayscale(1);
 }

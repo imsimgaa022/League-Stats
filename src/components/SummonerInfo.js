@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { renderAvatarIcon } from "../helpers/avatarlevels";
-import { fetchAllData, getItemData } from "../redux/actions";
+import { fetchAllData, getItemData, getUserLiveGame } from "../redux/actions";
+import LiveGame from "./LiveGame";
 import MatchDetailsInfo from "./MatchDetailsInfo";
 import { MatchHistory } from "./MatchHistory";
-import { MostPlayedChamps } from "./MostPlayedChamps";
 import Overall from "./Overall";
+import PlayedChampsTab from "./PlayedChampsTab";
 import RankDisplay from "./RankDisplay";
 
 const SummonerInfo = () => {
@@ -23,10 +24,14 @@ const SummonerInfo = () => {
   const summoner = data?.user;
   const rankInfo = data?.ranks;
   const mostPlayedChamps = data?.champs;
+  const liveGame = useSelector((state) => state.liveGame);
 
   useEffect(() => {
-    dispatch(getItemData());
-  }, [dispatch]);
+    const payload = {
+      patchVersion: patchVersion
+    }
+    dispatch(getItemData(payload));
+  }, [dispatch, patchVersion]);
 
   useEffect(() => {
     localStorage.setItem('summoner_name', params?.name);
@@ -38,6 +43,13 @@ const SummonerInfo = () => {
     };
     data?.user?.name !== params?.name && dispatch(fetchAllData(payload));
   }, [params?.name, dispatch, data?.user?.name]);
+
+  useEffect(() => {
+    if (data?.user?.id) {
+      const payload = {summonerId: data?.user?.id}
+      dispatch(getUserLiveGame(payload))
+    }
+  }, [data?.user?.id, dispatch])
 
 
   const items = [
@@ -71,6 +83,13 @@ const SummonerInfo = () => {
       ),
     },
     {
+      key: "5",
+      label: "Most played Champions",
+      children: (
+        <PlayedChampsTab mostPlayedChamps={mostPlayedChamps}/>
+      )
+    },
+    {
       key: "2",
       label: `Played With`,
       children: (
@@ -86,8 +105,11 @@ const SummonerInfo = () => {
     {
       key: "4",
       label: "Live game",
-      disabled: true,
-    }
+      disabled: !liveGame,
+      children: (
+        <LiveGame liveGame={liveGame}/>
+      )
+    },
   ];
 
   return (
@@ -151,36 +173,13 @@ const SummonerInfo = () => {
                 </Col>
                 </Row>
                 <Row>
-                <Col
-                  style={{
-                    paddingTop: "0%",
-                    paddingRight: "2%",
-                    paddingLeft: "2%",
-                  }}
-                  span={18}
-                >
+                <Col style={{paddingTop: "0%",paddingRight: "2%",paddingLeft: "2%",}} span={24}>
                     <Tabs
                       type="card"
                       className="overal-tabs michroma-font"
                       defaultActiveKey="3"
                       items={items}
                     />
-                </Col>
-                <Col span={6}>
-                <Row>
-                  <span style={{color:"white"}} className="michroma-font subtitle">Most played Champions</span>
-                </Row>
-                {mostPlayedChamps?.length ? mostPlayedChamps?.map((champ, index) => {
-                  return (
-                    <React.Fragment key={index}>
-                      <MostPlayedChamps
-                        champ={champ}
-                        index={index}
-                        mostPlayedChamps={mostPlayedChamps}
-                      />
-                    </React.Fragment>
-                  );
-                }) : (<Empty style={{marginTop:"5%"}}></Empty>)}
                 </Col>
                 </Row>
               </>

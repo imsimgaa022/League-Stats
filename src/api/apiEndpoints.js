@@ -59,6 +59,16 @@ class RiotApiService {
     return response.data.entries;
   }
 
+  getPlayerLiveGame = async (summonerId) => {
+    const response = await axios.get(`https://eun1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerId}?api_key=${this.apiKey}`)
+    return response.data
+  }
+
+  getSummonerSpells = async (version) => {
+    const response = await axios.get(`https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/summoner.json`)
+    return response.data.data
+  }
+
    fetchAllData = async (summonerName) => {
     const user = await this.getUserByName(summonerName);
     const ranks = await this.getUserRanks(user.id);

@@ -7,11 +7,15 @@ import {
   GET_CHALLANGER_QUE,
   GET_ITEM_DATA,
   GET_PATCH_VERSION,
+  GET_SUMMONER_SPELLS,
+  GET_USER_LIVE_GAME,
   resetUserData,
   RESET_USER,
   setChallangerQue,
   setItemData,
   setPatchVersion,
+  setSummonerSpells,
+  setUserLiveGame,
 } from "./actions";
 
 function* fetchAllDataSaga({ payload }) {
@@ -58,6 +62,24 @@ function* getChallangerQueSaga({ payload }) {
   };
 };
 
+function* getSummonerSpellsSaga({payload}) {
+  try {
+    const data = yield call(RiotApiService.getSummonerSpells, payload?.patchVersion);
+    yield put(setSummonerSpells(data));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* getUserLiveGameSaga({payload}) {
+  try {
+    const data = yield call(RiotApiService.getPlayerLiveGame, payload?.summonerId);
+    yield put(setUserLiveGame(data));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export function* rootSaga() {
   yield all([
     takeEvery(FETCH_ALL_DATA, fetchAllDataSaga),
@@ -65,5 +87,7 @@ export function* rootSaga() {
     takeEvery(GET_ITEM_DATA, fetchItemDataSaga),
     takeEvery(GET_PATCH_VERSION, getPatchVersionSaga),
     takeEvery(GET_CHALLANGER_QUE, getChallangerQueSaga),
+    takeEvery(GET_SUMMONER_SPELLS, getSummonerSpellsSaga),
+    takeEvery(GET_USER_LIVE_GAME, getUserLiveGameSaga),
   ]);
 };
