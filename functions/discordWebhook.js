@@ -5,7 +5,7 @@ export async function handler(event, context) {
 
   const message = `New deployment on branch ${branch}\nCommit ID: ${commitId}\nCommit Message: ${commitMessage}`;
   try {
-    await axios.post("https://discordapp.com/api/webhooks/1108403114144436234/De4boyqEmarsQ8qQJyXrt0jmpF--guZeANbdmbjNcFFRkl9MdDt_wJQpbAlh7qHi7nuG", { content: 'This is just a test' });
+    await axios.post("https://discord.com/api/webhooks/1108403114144436234/De4boyqEmarsQ8qQJyXrt0jmpF--guZeANbdmbjNcFFRkl9MdDt_wJQpbAlh7qHi7nuG", { content: 'This is just a test' });
 
     return {
       statusCode: 200,
