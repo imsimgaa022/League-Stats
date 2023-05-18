@@ -2,9 +2,7 @@
   from = "/*"
   to = "/"
   status = 200
-
 [build]
   functions = "functions"
-
 [functions]
   node_bundler = "esbuild"
