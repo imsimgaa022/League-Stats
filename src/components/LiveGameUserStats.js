@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 const LiveGameUserStats = ({ summonerId, redTeam = false }) => {
   const [userRank, setUserRank] = useState(null);
-  let rankUrl = `https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${process.env.REACT_APP_RIOT_API_KEY}`;
+  let rankUrl = `https://eun1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${process.env.REACT_APP_RIOT_API_KEY}`;
 
   useEffect(() => {
     async function fetchRank() {
