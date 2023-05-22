@@ -1,88 +1,42 @@
 import axios from "axios";
 
-const BASE_URL_API = "https://eun1.api.riotgames.com/";
-const GET_USER_BY_NAME = "lol/summoner/v4/summoners/by-name/";
-const GET_USER_RANKS = "lol/league/v4/entries/by-summoner/";
+const APP_URL = "https://stats-server-weld.vercel.app/"
 
 class RiotApiService {
   constructor(apiKey) {
     this.apiKey = apiKey;
   }
 
-   getUserByName = async (summonerName) =>{
-    const response = await axios.get(
-      `${BASE_URL_API}${GET_USER_BY_NAME}${summonerName}?api_key=${this.apiKey}`
-    );
-    return response.data;
-  }
-
-  async getUserRanks(summonerId) {
-    const response = await axios.get(
-      `${BASE_URL_API}${GET_USER_RANKS}${summonerId}?api_key=${this.apiKey}`
-    );
-    return response.data;
-  }
-
-  async getMostPlayedChamps(summonerId) {
-    const response = await axios.get(
-      `${BASE_URL_API}lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerId}/top?api_key=${this.apiKey}`
-    );
-    return response.data;
-  }
-
-  async getMatchIdsByPuuid(puuid) {
-    const response = await axios.get(
-      `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10&api_key=${this.apiKey}`
-    );
-    return response.data;
-  }
-
-  async getMatchById(matchId) {
-    const response = await axios.get(
-      `https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${this.apiKey}`
-    );
-    return response.data;
-  }
-
   async getItemData() {
-    const response = await axios.get('https://ddragon.leagueoflegends.com/cdn/13.9.1/data/en_US/item.json');
+    const response = await axios.get(`${APP_URL}api/itemdata`);
     return response.data;
   };
 
   async getPatchVersion() {
-    const response = await axios.get('https://ddragon.leagueoflegends.com/api/versions.json');
+    const response = await axios.get(`${APP_URL}api/patchversion`);
     return response;
   }
 
   getChallangerQue = async (que, league) => {
-    const response = await axios.get(`https://eun1.api.riotgames.com/lol/league/v4/${league}leagues/by-queue/${que}?api_key=${this.apiKey}`)
-    return response.data.entries;
+    const response = await axios.get(`${APP_URL}api/challengerleague/${que}/${league}`)
+    return response.data;
   }
 
   getPlayerLiveGame = async (summonerId) => {
-    const response = await axios.get(`https://eun1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerId}?api_key=${this.apiKey}`)
+    const response = await axios.get(`${APP_URL}api/playerlivegame/${summonerId}`)
     return response.data
   }
 
   getSummonerSpells = async (version) => {
-    const response = await axios.get(`https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/summoner.json`)
+    const response = await axios.get(`${APP_URL}api/summonerspells/${version}`)
     return response.data.data
   }
 
-   fetchAllData = async (summonerName) => {
-    const user = await this.getUserByName(summonerName);
-    const ranks = await this.getUserRanks(user.id);
-    const champs = await this.getMostPlayedChamps(user.id);
-    const matchIds = await this.getMatchIdsByPuuid(user.puuid);
-    const matches = await Promise.all(matchIds.map((id) => this.getMatchById(id)));
 
-    return {
-      user,
-      ranks,
-      champs,
-      matches,
-    };
+   fetchAllData = async (summonerName) => {
+     const response = await axios.get(`${APP_URL}api/fetchalldata/${summonerName}`)
+     return response.data;
   }
 }
 // eslint-disable-next-line
-export default new RiotApiService(process.env.REACT_APP_RIOT_API_KEY);
+export default new RiotApiService();

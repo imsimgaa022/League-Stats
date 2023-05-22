@@ -45,6 +45,7 @@ const Welcome = () => {
       setShowModal(true);
       localStorage.setItem('hasVisitedPage', true);
     }
+    localStorage.removeItem('summoner_name');
   }, []);
 
   return (

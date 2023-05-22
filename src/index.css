@@ -822,3 +822,39 @@ h1 {
   margin-right: 5px;
   filter: grayscale(1);
 }
+
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  color: white;
+}
+
+.not-found-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.not-found-text {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.not-found-image {
+  width: 300px;
+  margin-bottom: 2rem;
+}
+
+.not-found-link {
+  font-size: 1.2rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.not-found-link:hover {
+  text-decoration: underline;
+}

@@ -23,10 +23,11 @@ const ChartComponent = ({ game }) => {
   const chartRef = useRef(null);
   const team1Won = game?.teams[0]?.win;
   const team2Won = game?.teams[1]?.win;
+  const APP_URL = "https://stats-server-weld.vercel.app/"
 
   useEffect(() => {
     async function fetchTimeline() {
-    const response = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/EUN1_${game?.gameId}/timeline?api_key=${process.env.REACT_APP_RIOT_API_KEY}`);
+    const response = await axios.get(`${APP_URL}api/match-timeline/EUN1_${game?.gameId}`)
     const minutesList = response.data?.info?.frames;
     const minuteArray = [];
     for (let i = 0; i < minutesList.length; i++) {
