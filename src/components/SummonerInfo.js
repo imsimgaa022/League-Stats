@@ -112,8 +112,6 @@ const SummonerInfo = () => {
     },
   ];
 
-  console.log(data)
-
   return (
     <div
       className="home-image" 
@@ -130,7 +128,7 @@ const SummonerInfo = () => {
             </Row>
           ) : (
             <>
-            {data?.user?.id ? (
+            {summoner ? (
             <>
               <Row style={{paddingTop: "2%"}}>
                 <Col style={{ paddingTop: "0%", paddingLeft: "2%" }} span={24}>
@@ -187,11 +185,7 @@ const SummonerInfo = () => {
               </>
             ) : (
                 <Row style={{minHeight:"100vh"}} align="middle" justify="center">
-                  {dataIsLoading ? (
-                    <Spin size="large"/>
-                  ) : (
                     <h1 style={{color:"white"}}>No user with given Summoner Name!</h1>
-                  )}
                 </Row>
             )}
               </>
