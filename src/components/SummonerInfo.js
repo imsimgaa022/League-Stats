@@ -30,7 +30,7 @@ const SummonerInfo = () => {
     const payload = {
       patchVersion: patchVersion
     }
-    dispatch(getItemData(payload));
+    patchVersion && dispatch(getItemData(payload));
   }, [dispatch, patchVersion]);
 
   useEffect(() => {
@@ -112,6 +112,8 @@ const SummonerInfo = () => {
     },
   ];
 
+  console.log(data)
+
   return (
     <div
       className="home-image" 
@@ -128,7 +130,7 @@ const SummonerInfo = () => {
             </Row>
           ) : (
             <>
-            {summoner ? (
+            {data?.user?.id ? (
             <>
               <Row style={{paddingTop: "2%"}}>
                 <Col style={{ paddingTop: "0%", paddingLeft: "2%" }} span={24}>
@@ -184,9 +186,12 @@ const SummonerInfo = () => {
                 </Row>
               </>
             ) : (
-
                 <Row style={{minHeight:"100vh"}} align="middle" justify="center">
-                  <h1 style={{color:"white"}}>No user with given Summoner Name!</h1>
+                  {dataIsLoading ? (
+                    <Spin size="large"/>
+                  ) : (
+                    <h1 style={{color:"white"}}>No user with given Summoner Name!</h1>
+                  )}
                 </Row>
             )}
               </>

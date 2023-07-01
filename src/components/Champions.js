@@ -165,6 +165,7 @@ const Champions = () => {
                     }}
                   >
                     <img
+                      loading="lazy"
                       style={{cursor:"pointer"}}
                       ref={index === 1 ? ref2 : null}
                       onClick={() => handleClick(champion?.image?.full.replace('.png', ''))}

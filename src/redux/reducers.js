@@ -1,4 +1,4 @@
-import { FETCH_ALL_DATA, FETCH_ALL_DATA_FAILURE, FETCH_ALL_DATA_SUCCESS, GET_CHALLANGER_QUE, RESET_USER_DATA, SET_CHALLANGER_QUE, SET_ITEM_DATA, SET_PATCH_VERSION, SET_SUMMONER_SPELLS, SET_USER_LIVE_GAME } from "./actions";
+import { FETCH_ALL_DATA, FETCH_ALL_DATA_FAILURE, FETCH_ALL_DATA_SUCCESS, GET_CHALLANGER_QUE, GET_ITEM_DATA, RESET_USER_DATA, SET_CHALLANGER_QUE, SET_ITEM_DATA, SET_PATCH_VERSION, SET_SUMMONER_SPELLS, SET_USER_LIVE_GAME } from "./actions";
 
 const initialState = {
   isLoading: true,
@@ -22,10 +22,12 @@ export const reducer = (state = initialState, action) => {
     case RESET_USER_DATA:
       return {...state, isLoading: false, data: null};
     case SET_ITEM_DATA:
-      return {...state, items: action.payload};
+      return {...state, isLoading: false, items: action.payload};
     case SET_PATCH_VERSION:
       return {...state, patchVersion: action.payload.data[0]};
     case GET_CHALLANGER_QUE:
+      return {...state, isLoading: true};
+    case GET_ITEM_DATA:
       return {...state, isLoading: true};
     case SET_CHALLANGER_QUE:
       return {...state, isLoading: false, challangerQue: action.payload};

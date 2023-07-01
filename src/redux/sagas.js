@@ -35,9 +35,9 @@ function* resetUserSaga() {
   }
 }
 
-function* fetchItemDataSaga() {
+function* fetchItemDataSaga({ payload }) {
   try {
-    const data = yield call(RiotApiService.getItemData);
+    const data = yield call(RiotApiService.getItemData, payload?.patchVersion);
     yield put(setItemData(data.data));
   } catch (error) {
     console.log(error);

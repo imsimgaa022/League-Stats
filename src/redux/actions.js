@@ -37,8 +37,9 @@ export const resetUserAction = () => ({
   type: RESET_USER,
 });
 
-export const getItemData = () => ({
+export const getItemData = (payload) => ({
   type: GET_ITEM_DATA,
+  payload: payload
 });
 
 export const setItemData = (payload) => ({

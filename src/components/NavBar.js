@@ -17,6 +17,9 @@ const NavBar = () => {
     } else if (key === "leaderboard") {
       setActiveKey("leaderboard")
       navigate(`/home/${key}`)
+    } else if (key === "items") {
+      setActiveKey("items")
+      navigate(`/home/${key}`)
     } else {
       navigate(`/home/${key}`);
       setActiveKey("champions")
@@ -40,6 +43,10 @@ const NavBar = () => {
     {
       key: "leaderboard",
       label: "Leaderboard"
+    },
+    {
+      key: "items",
+      label: "Items"
     },
     {
       key: "champions",

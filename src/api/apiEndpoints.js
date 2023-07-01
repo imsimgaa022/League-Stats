@@ -1,14 +1,15 @@
 import axios from "axios";
 
 const APP_URL = "https://stats-server-weld.vercel.app/"
+// const APP_URL = "http://localhost:8000/"
 
 class RiotApiService {
   constructor(apiKey) {
     this.apiKey = apiKey;
   }
 
-  async getItemData() {
-    const response = await axios.get(`${APP_URL}api/itemdata`);
+  async getItemData(version) {
+    const response = await axios.get(`${APP_URL}api/itemdata/${version}`);
     return response.data;
   };
 
@@ -29,7 +30,7 @@ class RiotApiService {
 
   getSummonerSpells = async (version) => {
     const response = await axios.get(`${APP_URL}api/summonerspells/${version}`)
-    return response.data.data
+    return response.data
   }
 
 
