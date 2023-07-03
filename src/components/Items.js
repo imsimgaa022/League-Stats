@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Col, Input, Row, Spin, Tag } from "antd";
 import { getItemData } from "../redux/actions";
 import { Tree, TreeNode } from 'react-organizational-chart';
+import { TAG_TO_COLOR } from "../helpers/itemTagColor";
 
 const Items = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ const Items = () => {
     // eslint-disable-next-line
   }, [searchTerm]);
 
+
   return (
     dataIsLoading ? (
       <Row className="home-image" style={{background: "url('/images/home/itemsBg.jpeg')", backgroundSize: "cover", height: "calc(100vh - 57px)"}}>
@@ -58,7 +60,7 @@ const Items = () => {
     <>
       <>
       <Row className="home-image" style={{background: "url('/images/home/itemsBg.jpeg')", backgroundSize: "cover"}}>
-        <Col span={10} style={{height: "calc(100vh - 57px)", overflow: "scroll"}}>
+        <Col className="section" span={10} style={{height: "calc(100vh - 57px)", overflowY: "auto"}}>
           <div style={{marginTop: "10%"}}>
             { item && (
               <>
@@ -95,7 +97,7 @@ const Items = () => {
                       key={key}
                       onClick={() => handleClick(key, obj)}
                       className={selectedItemId === key ? "selected" : ""}
-                      style={{width: "50%", margin: "5% 0%", borderRadius: "15%"}}
+                      style={{width: "50%", margin: "5% 0%", borderRadius: "15%", cursor: selectedItemId === key ? "not-allowed" : "pointer"}}
                       src={ !!obj?.requiredAlly ? `https://static.bigbrain.gg/assets/lol/ornn_items/${key}.webp` : `http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/item/${key}.png`}
                     />
                   </Col>
@@ -107,22 +109,22 @@ const Items = () => {
             )}
           </div>
         </Col>
-        <Col span={14} style={{maxHeight: "calc(100vh - 57px)", overflow: "scroll"}}>
+        <Col span={14} style={{maxHeight: "calc(100vh - 57px)", overflowY: "auto"}}>
           <div style={{ flexDirection: "column" }}>
             <>  
             <div style={{color:"white", paddingLeft: "2%"}}>
-              <h3>Builds into</h3>
+              <h2 style={{textDecoration: "underline"}}>Builds into</h2>
             </div>
-              <div style={{ display: "flex", overflowX: "scroll", marginBottom: "5%", width: "100%"}}>
-                  {Array.from({ length: item?.into?.length >= 9 ? item?.into?.length : 9 }).map((_, index) => (
+              <div style={{ display: "flex", overflowX: "auto", marginBottom: "5%", width: "90%", marginLeft:"2%"}}>
+                  {Array.from({ length: item?.into?.length >= 12 ? item?.into?.length : 12 }).map((_, index) => (
                 <div
                   key={index}
                   style={{
-                    margin: "0% 1%",
+                    margin: "2% 1%",
                     minWidth: "50px",
                     height: "50px",
                     border: "1px solid white",
-                    borderRadius: "10%"
+                    borderRadius: "12%"
                   }}
                 >
                   {item?.into && index < item.into.length && (
@@ -214,24 +216,24 @@ const Items = () => {
               )}
             </Tree>
             </div>
-            <Row style={{borderTop: "1px solid white", borderBottom: "1px solid white", margin: "0% 3%", alignItems: "center", padding: "5% 0%", marginBottom: "5%"}}>
+            <Row style={{borderTop: "1px solid white", borderBottom: "1px solid white", margin: "0% 3%", alignItems: "center", padding: "2% 0%", marginTop: "3%"}}>
               <Col span={3}>
                 <img alt="" style={{borderRadius: "5%", border: "1px solid gray"}} src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/item/${item?.image?.full}`}/>
               </Col>
-              <Col span={16}>
+              <Col span={10}>
                 <div style={{color: "white"}}>
                   <h3 style={{marginBottom: "0", marginTop: "0"}}>{item?.name}</h3>
                   {!!item?.gold?.total && <p style={{marginTop: "0", color: "gold"}}>{item?.gold?.total}</p>}
                 </div>
               </Col>
-              <Col span={5}>
-                <div style={{ maxHeight: "100px", overflowY: "scroll"}}>
+              <Col span={11}>
+                <div className="section" style={{ overflowY: "auto"}}>
                 {item?.tags?.map((tag, ind) => {
-                  return <Tag key={ind} bordered="false" color="#108ee9" style={{margin: "10% 0%", display: "block", textAlign: "center"}}>{tag}</Tag>
+                  return <Tag key={ind} bordered="True" color={TAG_TO_COLOR[tag]} style={{margin: "2% 3%", textAlign: "center", borderRadius: "5px 5px 5px 5px"}}>{tag}</Tag>
                 })}
                 </div>
               </Col>
-              <Col span={24}>
+              <Col span={24} style={{marginTop: "1%"}}>
                 <div style={{color: "white", lineHeight: "25px"}} dangerouslySetInnerHTML={renderDescription(item)} />
               </Col>
             </Row>
