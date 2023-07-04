@@ -2,7 +2,7 @@ import { Col, Pagination, Row } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const SingleSummonerData = ({ data, page, setPage }) => {
+const SingleSummonerData = ({ data, page, setPage, region }) => {
   const navigate = useNavigate();
   const ResultsPerPage = 10;
   const sortedData = [...data].sort((a, b) => b.leaguePoints - a.leaguePoints);
@@ -24,7 +24,7 @@ const SingleSummonerData = ({ data, page, setPage }) => {
   }));
 
   const handleUserClick = (summoner) => {
-    navigate(`/home/summoner/${summoner}`);
+    navigate(`/summoner/${summoner}/${region}`);
   };
 
   return (

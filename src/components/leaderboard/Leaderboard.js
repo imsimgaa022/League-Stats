@@ -2,12 +2,14 @@ import { Row, Select, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getChallangerQue } from "../../redux/actions";
+import { leagueOptions, regionOptions, selectOptions } from "./selectOptions";
 import SingleSummonerData from "./SingleSummonerData";
 
 const Leaderboard = () => {
   const dispatch = useDispatch();
   const [selectedQue, setSelectedQue] = useState("RANKED_SOLO_5x5");
   const [selectedLeague, setSelectedLeague] = useState("challenger");
+  const [selectedRegion, setSelectedRegion] = useState("EUNE");
   const [page, setPage] = useState(1);
   const data = useSelector((state) => state.challangerQue);
   const isLoading = useSelector((state) => state.isLoading);
@@ -15,10 +17,11 @@ const Leaderboard = () => {
   useEffect(() => {
     const payload = {
       que: selectedQue,
-      league: selectedLeague
+      league: selectedLeague,
+      region: selectedRegion
     };
     dispatch(getChallangerQue(payload));
-  }, [selectedQue, dispatch, selectedLeague]);
+  }, [selectedQue, dispatch, selectedLeague, selectedRegion]);
 
   const handleSelectChange = (value) => {
     setSelectedQue(value);
@@ -30,31 +33,10 @@ const Leaderboard = () => {
     setPage(1);
   };
 
-  const selectOptions = [
-    {
-      value: "RANKED_SOLO_5x5",
-      label: "Solo Que",
-    },
-    {
-      value: "RANKED_FLEX_SR",
-      label: "Flex",
-    },
-  ];
-
-  const leagueOptions = [
-    {
-      value: "challenger",
-      label: "Challenger",
-    },
-    {
-      value: "grandmaster",
-      label: "Grandmaster",
-    },
-    {
-      value: "master",
-      label: "Master",
-    },
-  ]
+  const handleRegionChange = (value) => {
+    setSelectedRegion(value);
+    setPage(1);
+  };
 
   return (
     <>
@@ -66,13 +48,13 @@ const Leaderboard = () => {
               backgroundSize: "cover",
             }}
           >
-            <div style={{overflow: "scroll"}}>
+            <div >
               {data && !isLoading ? (
                 <>
               <Row justify={"center"} style={{paddingTop:"2%", paddingBottom:"1%"}}>
                 <Select
                   className="que-select"
-                  style={{width:"200px", textAlign:"center", marginRight:"2%"}}
+                  style={{width:"230px", textAlign:"center", marginRight:"2%"}}
                   defaultValue={selectedQue}
                   onChange={handleSelectChange}
                   options={selectOptions}
@@ -80,15 +62,23 @@ const Leaderboard = () => {
                 />
                 <Select
                   className="que-select"
-                  style={{width:"200px", textAlign:"center", marginLeft:"2%"}}
+                  style={{width:"230px", textAlign:"center", marginLeft:"2%", marginRight: "2%"}}
                   defaultValue={selectedLeague}
                   onChange={handleLeagueChange}
                   options={leagueOptions}
                   size="large"
                 />
+                <Select
+                  className="que-select"
+                  style={{width:"230px", textAlign:"center", marginLeft:"2%"}}
+                  defaultValue={selectedRegion}
+                  onChange={handleRegionChange}
+                  options={regionOptions}
+                  size="large"
+                />
               </Row>
               <Row justify={"center"}>
-                <SingleSummonerData page={page} setPage={setPage} data={data} />
+                <SingleSummonerData region={selectedRegion} page={page} setPage={setPage} data={data} />
               </Row>
               </>
               ) : (

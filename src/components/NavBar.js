@@ -1,35 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Tabs } from "antd";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 
 const NavBar = () => {
-  const params = useParams();
   const navigate = useNavigate();
   const summoner_name = localStorage.getItem('summoner_name');
-  const [activeKey, setActiveKey] = useState();
+  const location = useLocation();
+  const region = localStorage?.getItem("region");
+
   const onChange = (key) => {
     if (key === "home") {
+      localStorage.removeItem('summoner_name');
       navigate("/");
     } else if (key === "summoner") {
-      setActiveKey("summoner")
-      navigate(`/home/${key}/${summoner_name}`);
+      navigate(`/${key}/${summoner_name}/${region}`);
     } else if (key === "leaderboard") {
-      setActiveKey("leaderboard")
-      navigate(`/home/${key}`)
+      navigate(`/${key}`)
     } else if (key === "items") {
-      setActiveKey("items")
-      navigate(`/home/${key}`)
+      navigate(`/${key}`)
     } else {
-      navigate(`/home/${key}`);
-      setActiveKey("champions")
+      navigate(`/${key}`);
     }
   };
-
-  useEffect(() => {
-    params?.name && setActiveKey("summoner")
-    params?.id && setActiveKey("champions")
-  }, [params])
 
   const items = [
     {
@@ -39,6 +32,7 @@ const NavBar = () => {
     {
       key: "summoner",
       label: `SUMMONER`,
+      disabled: !localStorage?.getItem("summoner_name")
     },
     {
       key: "leaderboard",
@@ -60,10 +54,10 @@ const NavBar = () => {
           onChange={onChange}
           className="custom-tabs michroma-font"
           style={{ marginBottom: "0px" }}
-          tabBarGutter={120}
+          tabBarGutter={60}
           centered
           size="large"
-          activeKey={activeKey}
+          activeKey={location?.pathname?.split("/")?.[1] || "home"}
           items={items}
         />
       </div>

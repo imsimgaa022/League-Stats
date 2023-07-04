@@ -78,7 +78,7 @@ const Champions = () => {
   }, [patchVerions]);
 
   const handleClick = (key) => {
-    navigate(`/home/champions/${key}`);
+    navigate(`/champions/${key}`);
   };
 
   const handleTagClick = (value) => {

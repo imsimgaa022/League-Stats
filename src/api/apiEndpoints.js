@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const APP_URL = "https://stats-server-weld.vercel.app/"
-// const APP_URL = "http://localhost:8000/"
 
 class RiotApiService {
   constructor(apiKey) {
@@ -18,13 +17,13 @@ class RiotApiService {
     return response;
   }
 
-  getChallangerQue = async (que, league) => {
-    const response = await axios.get(`${APP_URL}api/challengerleague/${que}/${league}`)
+  getChallangerQue = async (que, league, region) => {
+    const response = await axios.get(`${APP_URL}api/challengerleague/${que}/${league}/${region}`)
     return response.data;
   }
 
-  getPlayerLiveGame = async (summonerId) => {
-    const response = await axios.get(`${APP_URL}api/playerlivegame/${summonerId}`)
+  getPlayerLiveGame = async (summonerId, region) => {
+    const response = await axios.get(`${APP_URL}api/playerlivegame/${summonerId}/${region}`)
     return response.data
   }
 
@@ -34,8 +33,8 @@ class RiotApiService {
   }
 
 
-   fetchAllData = async (summonerName) => {
-     const response = await axios.get(`${APP_URL}api/fetchalldata/${summonerName}`)
+   fetchAllData = async (summonerName, region) => {
+     const response = await axios.get(`${APP_URL}api/fetchalldata/${summonerName}/${region}`)
      return response.data;
   }
 }

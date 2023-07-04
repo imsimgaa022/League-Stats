@@ -4,7 +4,7 @@ import MatchTable from "./MatchTable";
 import SingleGameHeader from "./SingleGameHeader";
 import { useSelector } from "react-redux";
 
-const SingleGame = ({ game, summonerName, fetchGames, setGameCount }) => {
+const SingleGame = ({ game, summonerName, queTypes }) => {
 
   const { Panel } = Collapse;
   const itemData = useSelector((state) => state.items);
@@ -27,6 +27,7 @@ const SingleGame = ({ game, summonerName, fetchGames, setGameCount }) => {
               game={game}
               summonerName={summonerName}
               itemData={itemData}
+              queTypes={queTypes}
             />
           }
           key={game?.gameId}

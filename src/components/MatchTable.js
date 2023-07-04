@@ -2,7 +2,7 @@ import { Avatar, Badge, Progress, Tabs, Tooltip } from "antd";
 import DOMPurify from "dompurify";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ChartComponent from "./Chart";
 import ScoreBoardTable from "./ScoreBoardTable";
 import TeamAnalysis from "./TeamAnalysis";
@@ -11,6 +11,7 @@ const MatchTable = ({ game, summonerName, itemData }) => {
   let navigate = useNavigate();
   const [activeKey, setActiveKey] = useState("1");
   const patchVersion = useSelector((state) => state.patchVersion);
+  const params = useParams();
 
   let participants = game?.participants;
   let team1 = participants?.slice(0, 5);
@@ -82,7 +83,7 @@ const MatchTable = ({ game, summonerName, itemData }) => {
   };
 
   const handleUserClick = (summoner) => {
-    navigate(`/home/summoner/${summoner}`);
+    navigate(`/summoner/${summoner}/${params?.region}`);
   };
 
   const calculateKda = (item) => {
@@ -149,7 +150,7 @@ const MatchTable = ({ game, summonerName, itemData }) => {
           return (
               <>
               <p style={{margin:"0", textAlign:"center"}}>{item?.totalDamageDealtToChampions}</p>
-              <Progress strokeColor={`${item?.win ? "blue" : "red"}`} percent={item?.totalDamageDealtToChampions / maxDamgeInTeam(participants) * 100} className="flex-center" showInfo={false} style={{width:"100%", padding:"0% 10%"}}/>
+              <Progress size="small" strokeColor={`${item?.win ? "blue" : "red"}`} percent={item?.totalDamageDealtToChampions / maxDamgeInTeam(participants) * 100} className="flex-center" showInfo={false} style={{width:"100%", padding:"0% 10%"}}/>
               </>
           )
       }
@@ -160,7 +161,7 @@ const MatchTable = ({ game, summonerName, itemData }) => {
       key: "Wards",
       render: (_, item) => {
           return (
-              <p className="text-center">{item?.wardsPlaced} / {item?.wardsKilled}</p>
+              <p className="text-center" style={{margin: "0px"}}>{item?.wardsPlaced} / {item?.wardsKilled}</p>
           )
       }
     },
@@ -171,7 +172,7 @@ const MatchTable = ({ game, summonerName, itemData }) => {
         render: (_, item) => {
             return (
           <span className="mb-0 payment-columns">
-            <p className="text-center">{item?.totalMinionsKilled + item?.neutralMinionsKilled} | {((item?.totalMinionsKilled + item?.neutralMinionsKilled) / Math.floor((item?.timePlayed / 60))).toFixed(1)}/min</p>
+            <p className="text-center" style={{margin: "0px"}}>{item?.totalMinionsKilled + item?.neutralMinionsKilled} | {((item?.totalMinionsKilled + item?.neutralMinionsKilled) / Math.floor((item?.timePlayed / 60))).toFixed(1)}/min</p>
           </span>
         );
     },
@@ -187,6 +188,7 @@ const MatchTable = ({ game, summonerName, itemData }) => {
             {itemIds.map((itemId, i) => (
               <Tooltip zIndex={"9999"} title={tooltip(itemId)} key={i}>
                 <Avatar
+                  size={30}
                   key={i}
                   style={{ marginRight: '2%' }}
                   shape="square"
@@ -219,7 +221,7 @@ const MatchTable = ({ game, summonerName, itemData }) => {
       key: "3",
       label: "Gold timeline",
       children: (
-        <ChartComponent game={game}/>
+        <ChartComponent game={game} region={params?.region}/>
       )
     }
   ];

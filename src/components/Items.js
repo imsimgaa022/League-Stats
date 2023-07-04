@@ -216,12 +216,12 @@ const Items = () => {
               )}
             </Tree>
             </div>
-            <Row style={{borderTop: "1px solid white", borderBottom: "1px solid white", margin: "0% 3%", alignItems: "center", padding: "2% 0%", marginTop: "3%"}}>
+            <Row style={{borderTop: "1px solid white", borderBottom: "1px solid white", margin: "0% 3%", alignItems: "center", padding: "2% 0%", marginTop: "3%", marginBottom: "3%"}}>
               <Col span={3}>
                 <img alt="" style={{borderRadius: "5%", border: "1px solid gray"}} src={`http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/item/${item?.image?.full}`}/>
               </Col>
               <Col span={10}>
-                <div style={{color: "white"}}>
+                <div style={{color: "white"}} className="michroma-font">
                   <h3 style={{marginBottom: "0", marginTop: "0"}}>{item?.name}</h3>
                   {!!item?.gold?.total && <p style={{marginTop: "0", color: "gold"}}>{item?.gold?.total}</p>}
                 </div>
@@ -229,12 +229,12 @@ const Items = () => {
               <Col span={11}>
                 <div className="section" style={{ overflowY: "auto"}}>
                 {item?.tags?.map((tag, ind) => {
-                  return <Tag key={ind} bordered="True" color={TAG_TO_COLOR[tag]} style={{margin: "2% 3%", textAlign: "center", borderRadius: "5px 5px 5px 5px"}}>{tag}</Tag>
+                  return <Tag className="michroma-font" key={ind} bordered="True" color={TAG_TO_COLOR[tag]} style={{margin: "2% 3%", textAlign: "center", borderRadius: "5px 5px 5px 5px"}}>{tag}</Tag>
                 })}
                 </div>
               </Col>
               <Col span={24} style={{marginTop: "1%"}}>
-                <div style={{color: "white", lineHeight: "25px"}} dangerouslySetInnerHTML={renderDescription(item)} />
+                <div className="michroma-font" style={{color: "white", lineHeight: "25px"}} dangerouslySetInnerHTML={renderDescription(item)} />
               </Col>
             </Row>
         </Col>

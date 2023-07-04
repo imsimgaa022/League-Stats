@@ -9,7 +9,6 @@ const LiveGame = ({ liveGame }) => {
   const patchVersion = useSelector((state) => state.patchVersion);
   const summonerSpells = useSelector((state) => state.summonerSpells);
   const dispatch = useDispatch();
-  console.log(summonerSpells)
 
   useEffect(() => {
     const payload = { patchVersion: patchVersion };
@@ -24,7 +23,6 @@ const LiveGame = ({ liveGame }) => {
     participants?.length
   );
   const findSummonerSpell = (obj, searchValue, key) => {
-    console.log(obj)
     for (const objKey in obj) {
       if (obj.hasOwnProperty(objKey)) {
         const innerObj = obj[objKey]

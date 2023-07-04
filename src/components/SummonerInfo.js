@@ -18,13 +18,14 @@ const SummonerInfo = () => {
   const [matchList, setMatchList] = useState([]);
   const [summonerNames, setSummonerNames] = useState([]);
   const data = useSelector((state) => state.data);
-  const dataIsLoading = useSelector((state) => state.isLoading);
   const summonerName = data?.user?.name;
   const singleGame = data?.matches
   const summoner = data?.user;
   const rankInfo = data?.ranks;
   const mostPlayedChamps = data?.champs;
   const liveGame = useSelector((state) => state.liveGame);
+  const [loading, setIsLoading] = useState(true);
+  const dataLoading = useSelector((state) => state.isLoading);
 
   useEffect(() => {
     const payload = {
@@ -35,22 +36,33 @@ const SummonerInfo = () => {
 
   useEffect(() => {
     localStorage.setItem('summoner_name', params?.name);
+    localStorage.setItem('region', params?.region);
   }, [params])
 
   useEffect(() => {
+    setIsLoading(true)
     const payload = {
       summoner_name: params?.name,
+      region: params?.region,
+      setIsLoading: setIsLoading
     };
-    data?.user?.name !== params?.name && dispatch(fetchAllData(payload));
-  }, [params?.name, dispatch, data?.user?.name]);
+    !data?.user?.name && dispatch(fetchAllData(payload));
+
+    data && data?.user?.name.toLowerCase() !== params?.name?.toLocaleLowerCase() && dispatch(fetchAllData(payload));
+
+    data?.user?.name && setIsLoading(false);
+    // eslint-disable-next-line
+  }, [params?.name, dispatch, data?.user?.name, params?.region]);
 
   useEffect(() => {
-    if (data?.user?.id) {
-      const payload = {summonerId: data?.user?.id}
+    if (!liveGame && data?.user?.id) {
+      const payload = {
+        summonerId: data?.user?.id,
+        region: params?.region
+      }
       dispatch(getUserLiveGame(payload))
     }
-  }, [data?.user?.id, dispatch])
-
+  }, [data?.user?.id, dispatch, params?.region, liveGame])
 
   const items = [
     {
@@ -116,19 +128,19 @@ const SummonerInfo = () => {
     <div
       className="home-image" 
       style={{
-        minHeight: "100vh",
+        minHeight: "calc(100vh - 57px)",
         background: "url('/images/home/jhinHome.jpg')",
         backgroundSize: "cover",
       }}
     >
           <>
-          {dataIsLoading ? (
+          {(loading || dataLoading)  ? (
             <Row style={{minHeight: "100vh"}} align={"middle"} justify={"center"}>
               <Spin size="large" spinning={true}/>
             </Row>
           ) : (
             <>
-            {summoner ? (
+            {summoner?.id ? (
             <>
               <Row style={{paddingTop: "2%"}}>
                 <Col style={{ paddingTop: "0%", paddingLeft: "2%" }} span={24}>

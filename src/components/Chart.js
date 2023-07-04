@@ -19,15 +19,21 @@ Chart.register(
   Tooltip
 );
 
-const ChartComponent = ({ game }) => {
+const ChartComponent = ({ game, region }) => {
   const chartRef = useRef(null);
   const team1Won = game?.teams[0]?.win;
   const team2Won = game?.teams[1]?.win;
   const APP_URL = "https://stats-server-weld.vercel.app/"
 
+  const regionMap = {
+    EUW: "EUW1_",
+    EUNE: "EUN1_",
+    NA: "NA1_",
+  }
+
   useEffect(() => {
     async function fetchTimeline() {
-    const response = await axios.get(`${APP_URL}api/match-timeline/EUN1_${game?.gameId}`)
+    const response = await axios.get(`${APP_URL}api/match-timeline/${regionMap[region]}${game?.gameId}/${region}`)
     const minutesList = response.data?.info?.frames;
     const minuteArray = [];
     for (let i = 0; i < minutesList.length; i++) {
@@ -83,6 +89,7 @@ const ChartComponent = ({ game }) => {
     new Chart(chartRef.current, chartConfig);
     }
     fetchTimeline();
+    // eslint-disable-next-line
   }, [game, team1Won, team2Won]);
 
   return <canvas ref={chartRef}></canvas>;

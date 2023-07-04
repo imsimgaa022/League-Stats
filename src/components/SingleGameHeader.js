@@ -3,7 +3,7 @@ import DOMPurify from "dompurify";
 import React from "react";
 import { useSelector } from "react-redux";
 
-const SingleGameHeader = ({ game, summonerName, playerStats, itemData }) => {
+const SingleGameHeader = ({ game, queTypes, playerStats, itemData }) => {
   const patchVersion = useSelector((state) => state.patchVersion);
 
   let team1 = game?.participants?.slice(0, 5);
@@ -11,6 +11,8 @@ const SingleGameHeader = ({ game, summonerName, playerStats, itemData }) => {
     game?.participants?.length - 5,
     game?.participants?.length
   );
+
+  const gameMode = queTypes?.find(obj => obj.queueId === game?.queueId);
 
   const renderKillTags = () => {
     if (playerStats?.pentaKills) {
@@ -119,7 +121,7 @@ const SingleGameHeader = ({ game, summonerName, playerStats, itemData }) => {
             className={`${playerStats?.win ? "win-word" : "defeat-word"}`}
             style={{ margin: "0" }}
           >
-            {game?.gameMode}
+            {gameMode?.description?.split(' ').slice(0, -1).join(' ')}
           </div>
           <div style={{ margin: "0" }}>{renderDay(game?.gameEndTimestamp)}</div>
           <div style={{ margin: "0", width: "70%" }}><Divider style={{margin:"5px"}}/></div>

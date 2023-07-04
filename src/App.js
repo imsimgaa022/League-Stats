@@ -21,16 +21,14 @@ function App() {
 
   return (
     <div>
+      <NavBar/>
       <Routes>
         <Route path="/" element={<Welcome/>}/>
-        <Route path="/home" element={<NavBar/>}>
-          <Route index={true}/>
           <Route index={false} path="leaderboard" element={<Leaderboard/>} />
           <Route index={false} path="items" element={<Items/>} />
           <Route index={false} path="champions" element={<Champions/>} />
-          <Route index={false} path="summoner/:name" element={<SummonerInfo/>} />
+          <Route index={false} path="summoner/:name/:region" element={<SummonerInfo/>} />
           <Route path="champions/:id" element={<SingleChampion/>}/>
-        </Route>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
     </div>

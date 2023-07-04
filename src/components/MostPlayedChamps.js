@@ -9,7 +9,7 @@ export const MostPlayedChamps = ({mostPlayedChamps, champ, index}) => {
   const navigate = useNavigate();
 
   const handleChampClick = (champion) => {
-    navigate(`/home/champions/${champion?.replace(/\s/g, "")}`);
+    navigate(`/champions/${champion?.replace(/\s/g, "")}`);
   }
 
   return (

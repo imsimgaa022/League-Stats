@@ -1,11 +1,14 @@
 import { Col, Row } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const LiveGameUserStats = ({ summonerId, redTeam = false }) => {
+  const params = useParams();
+  const region = params?.region
   const [userRank, setUserRank] = useState(null);
   const APP_URL = "https://stats-server-weld.vercel.app/"
-  let rankUrl = `${APP_URL}api/userranks/${summonerId}`
+  let rankUrl = `${APP_URL}api/userranks/${summonerId}/${region}`
 
   useEffect(() => {
     async function fetchRank() {

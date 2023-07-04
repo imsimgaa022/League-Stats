@@ -14,7 +14,7 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ALL_DATA:
-      return { ...state, isLoading: true, data: null, liveGame: null };
+      return { ...state, isLoading: true};
     case FETCH_ALL_DATA_SUCCESS:
       return { ...state, isLoading: false, data: action.payload.data };
     case FETCH_ALL_DATA_FAILURE:

@@ -20,10 +20,12 @@ import {
 
 function* fetchAllDataSaga({ payload }) {
   try {
-    const data = yield call(RiotApiService.fetchAllData, payload?.summoner_name);
+    const data = yield call(RiotApiService.fetchAllData, payload?.summoner_name, payload?.region);
     yield put(fetchAllDataSuccess(data));
+    payload?.setIsLoading(false);
   } catch (error) {
     yield put(fetchAllDataFailure(error.message));
+    payload?.setIsLoading(false);
   }
 }
 
@@ -55,7 +57,7 @@ function* getPatchVersionSaga() {
 
 function* getChallangerQueSaga({ payload }) {
   try {
-    const data = yield call(RiotApiService.getChallangerQue, payload.que, payload.league);
+    const data = yield call(RiotApiService.getChallangerQue, payload.que, payload.league, payload?.region);
     yield put(setChallangerQue(data));
   } catch (err) {
     console.log(err);
@@ -73,7 +75,7 @@ function* getSummonerSpellsSaga({payload}) {
 
 function* getUserLiveGameSaga({payload}) {
   try {
-    const data = yield call(RiotApiService.getPlayerLiveGame, payload?.summonerId);
+    const data = yield call(RiotApiService.getPlayerLiveGame, payload?.summonerId, payload?.region);
     yield put(setUserLiveGame(data));
   } catch (err) {
     console.log(err);
