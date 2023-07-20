@@ -9,6 +9,8 @@ import {
   GET_PATCH_VERSION,
   GET_SUMMONER_SPELLS,
   GET_USER_LIVE_GAME,
+  LOGIN_USER,
+  REGISTER_USER,
   resetUserData,
   RESET_USER,
   setChallangerQue,
@@ -17,6 +19,8 @@ import {
   setSummonerSpells,
   setUserLiveGame,
 } from "./actions";
+import { auth } from '../firebase/firebase';
+import { message } from "antd";
 
 function* fetchAllDataSaga({ payload }) {
   try {
@@ -26,6 +30,58 @@ function* fetchAllDataSaga({ payload }) {
   } catch (error) {
     yield put(fetchAllDataFailure(error.message));
     payload?.setIsLoading(false);
+  }
+}
+
+function* loginUserSaga({ payload }) {
+  try {
+    const userCredential = yield call(
+      [auth, auth.signInWithEmailAndPassword],
+      payload.email,
+      payload.password
+    );
+    const user = userCredential.user;
+    const userEmail = user?.email;
+    const idToken = yield call([user, user.getIdToken]);
+    
+    if (!user?.emailVerified) {
+      message.error("Please verify your email before logging in.", 3);
+      return;
+    }
+
+    localStorage.setItem('accessToken', idToken);
+    yield put({ type: 'SET_TOKEN', payload: idToken });
+    yield put({ type: 'SET_USER', payload: { email: userEmail } });
+    message.success(`Welcome back ${userEmail?.split("@")[0]}!`, 2);
+  } catch (error) {
+    console.log(error)
+    let errorMessage = error.message;
+    const startIdx = errorMessage.indexOf(':') + 1;
+    const endIdx = errorMessage.indexOf('(');
+    if (startIdx !== -1 && endIdx !== -1) {
+      errorMessage = errorMessage.slice(startIdx, endIdx).trim();
+    }
+    message.error(errorMessage, 3);
+  }
+}
+
+function* registerUserSaga({ payload }) {
+  try {
+    const userCredential = yield call([auth, auth.createUserWithEmailAndPassword], payload.email, payload.password);
+    const user = userCredential.user;
+
+    yield call([user, user.sendEmailVerification]);
+    
+    payload?.handleNotification()
+
+  } catch (error) {
+    let errorMessage = error.message;
+    const startIdx = errorMessage.indexOf(':') + 1;
+    const endIdx = errorMessage.indexOf('(');
+    if (startIdx !== -1 && endIdx !== -1) {
+      errorMessage = errorMessage.slice(startIdx, endIdx).trim();
+    }
+    message.error(errorMessage, 3);
   }
 }
 
@@ -91,5 +147,7 @@ export function* rootSaga() {
     takeEvery(GET_CHALLANGER_QUE, getChallangerQueSaga),
     takeEvery(GET_SUMMONER_SPELLS, getSummonerSpellsSaga),
     takeEvery(GET_USER_LIVE_GAME, getUserLiveGameSaga),
+    takeEvery(LOGIN_USER, loginUserSaga),
+    takeEvery(REGISTER_USER, registerUserSaga),
   ]);
 };

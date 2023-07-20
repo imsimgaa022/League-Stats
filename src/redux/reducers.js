@@ -1,4 +1,4 @@
-import { FETCH_ALL_DATA, FETCH_ALL_DATA_FAILURE, FETCH_ALL_DATA_SUCCESS, GET_CHALLANGER_QUE, GET_ITEM_DATA, RESET_USER_DATA, SET_CHALLANGER_QUE, SET_ITEM_DATA, SET_PATCH_VERSION, SET_SUMMONER_SPELLS, SET_USER_LIVE_GAME } from "./actions";
+import { FETCH_ALL_DATA, FETCH_ALL_DATA_FAILURE, FETCH_ALL_DATA_SUCCESS, GET_CHALLANGER_QUE, GET_ITEM_DATA, RESET_USER_DATA, SET_CHALLANGER_QUE, SET_ITEM_DATA, SET_PATCH_VERSION, SET_SUMMONER_SPELLS, SET_USER, SET_USER_LIVE_GAME } from "./actions";
 
 const initialState = {
   isLoading: true,
@@ -9,6 +9,8 @@ const initialState = {
   challangerQue: null,
   summonerSpells: null,
   liveGame: null,
+  user: null,
+  token: localStorage.getItem('accessToken') || null,
 };
 //create more reducers to store different data
 export const reducer = (state = initialState, action) => {
@@ -35,6 +37,14 @@ export const reducer = (state = initialState, action) => {
       return {...state, isLoading: false, summonerSpells: action.payload};
     case SET_USER_LIVE_GAME:
       return {...state, isLoading: false, liveGame: action.payload};
+    case 'SET_TOKEN':
+      return { ...state, token: action.payload };
+    case 'SET_USER':
+      return { ...state, user: action.payload };
+    case 'LOGOUT_USER':
+      return { ...state, token: null, user: null };
+    case SET_USER:
+      return {...state, isLoading: false, user: action.payload};
     default:
       return state;
   }

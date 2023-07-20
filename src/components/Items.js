@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Col, Input, Row, Spin, Tag } from "antd";
+import { Col, Input, Row, Spin, Tag, Tooltip } from "antd";
 import { getItemData } from "../redux/actions";
 import { Tree, TreeNode } from 'react-organizational-chart';
 import { TAG_TO_COLOR } from "../helpers/itemTagColor";
+import { filters, STAT_TO_ICON } from "../helpers/itemsHelpers";
 
 const Items = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Items = () => {
   const [item, setItem] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFilteredItems, setSearchFilteredItems] = useState(null);
+  const [appliedTag, setAppliedTag] = useState([]);
 
   useEffect(() => {
     const payload = {
@@ -43,15 +45,36 @@ const Items = () => {
 
   useEffect(() => {
     if (!items) return;
-    const filteredItems = Object?.values(items)?.filter((item) => item?.name?.toLowerCase()?.includes(searchTerm?.toLowerCase()));
+  
+    const filteredItems = Object?.values(items)?.filter((item) =>
+      item?.name?.toLowerCase()?.includes(searchTerm?.toLowerCase())
+    );
     setSearchFilteredItems(filteredItems);
+  
+    const categorizedItems = filteredItems.filter((item) =>
+      appliedTag.every((tag) =>
+        item.tags?.some((itemTag) => itemTag.toLowerCase() === tag.toLowerCase())
+      )
+    );
+  
+    setSearchFilteredItems(categorizedItems);
+  
     // eslint-disable-next-line
-  }, [searchTerm]);
+  }, [searchTerm, appliedTag]);
 
+  const handleTagFilter = (tag) => {
+    if (appliedTag.includes(tag)) {
+      const updatedTags = appliedTag.filter((t) => t !== tag);
+      setAppliedTag(updatedTags);
+    } else {
+      const updatedTags = [...appliedTag, tag];
+      setAppliedTag(updatedTags);
+    }
+  }
 
   return (
     dataIsLoading ? (
-      <Row className="home-image" style={{background: "url('/images/home/itemsBg.jpeg')", backgroundSize: "cover", height: "calc(100vh - 57px)"}}>
+      <Row className="home-image" style={{background: "url('/images/home/newBg.jpeg')", backgroundSize: "cover", height: "calc(100vh - 57px)"}}>
         <Col span={24} className="flex-center">
           <Spin size="large"/>
         </Col>
@@ -59,29 +82,54 @@ const Items = () => {
     ) : (
     <>
       <>
-      <Row className="home-image" style={{background: "url('/images/home/itemsBg.jpeg')", backgroundSize: "cover"}}>
-        <Col className="section" span={10} style={{height: "calc(100vh - 57px)", overflowY: "auto"}}>
+      <Row className="home-image" style={{background: "url('/images/home/newBg.jpeg')", backgroundSize: "cover"}}>
+        <Col className="section" span={12} style={{height: "calc(100vh - 57px)", overflowY: "auto"}}>
           <div style={{marginTop: "10%"}}>
             { item && (
               <>
               <Row style={{marginBottom: "3%"}}>
-                <Col span={24}>
+                <Col span={24} style={{padding: "0 5%"}}>
                   <Input onChange={handleSearch} placeholder="Search items..."/>
                 </Col>
               </Row>
+              <Row style={{overflowY: "auto", justifyContent: "space-between", marginBottom: "2%", padding: "0 5%"}}>
+                {filters?.map((item) => {
+                  return (
+                    <div style={{display: "flex"}}>
+                    {item?.tags?.map((tag) => {
+                      const isActive = appliedTag.includes(tag.toLowerCase());
+                      return (
+                        <>
+                        <div style={{display: "flex"}}>
+                          <Tooltip title={tag}>
+                            <img style={{cursor: "pointer", marginRight: "10px"}}
+                                 className={`${isActive && "active-tag-img"}`}
+                                 alt=""
+                                 width={30}
+                                 src={`https://cdn.mobalytics.gg/assets/lol/images/item-categories/${STAT_TO_ICON[tag]}.svg`}onClick={() => handleTagFilter(tag?.toLowerCase())}
+                            />
+                          </Tooltip>
+                        </div>
+                        </>
+                      )
+                    })}
+                    </div>
+                  )
+                })}
+              </Row>
               <Row>
-              {searchTerm ? (
+              {searchTerm || appliedTag?.length ? (
                 searchFilteredItems?.map((item) => {
                   let itemKey = item?.image?.full?.split(".")?.[0]
                   return (
-                    <Col key={itemKey} span={4} className="d-flex flex-center">
+                    <Col key={itemKey} span={3} className="d-flex flex-center">
                     <img
                         loading="lazy"
                         alt=""
                         key={itemKey}
                         onClick={() => handleClick(itemKey)}
                         className={selectedItemId === itemKey ? "selected" : ""}
-                        style={{width: "50%", margin: "5% 0%", borderRadius: "15%"}}
+                        style={{width: "50%", margin: "5% 0%", borderRadius: "15%", cursor: selectedItemId === itemKey ? "not-allowed" : "pointer"}}
                         src={ !!item?.requiredAlly ? `https://static.bigbrain.gg/assets/lol/ornn_items/${itemKey}.webp` : `http://ddragon.leagueoflegends.com/cdn/${patchVersion}/img/item/${itemKey}.png`}
                       />
                     </Col>
@@ -90,7 +138,7 @@ const Items = () => {
               ) : (
                 <>
                 {Object.entries(items).map(([key, obj]) => (
-                  <Col key={key} span={4} className="d-flex flex-center">
+                  <Col key={key} span={3} className="d-flex flex-center">
                     <img
                       loading="lazy"
                       alt=""
@@ -109,7 +157,7 @@ const Items = () => {
             )}
           </div>
         </Col>
-        <Col span={14} style={{maxHeight: "calc(100vh - 57px)", overflowY: "auto"}}>
+        <Col span={12} style={{maxHeight: "calc(100vh - 57px)", overflowY: "auto"}}>
           <div style={{ flexDirection: "column" }}>
             <>  
             <div style={{color:"white", paddingLeft: "2%"}}>

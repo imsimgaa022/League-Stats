@@ -131,10 +131,11 @@ const Champions = () => {
         className="home-image"
         style={{
           paddingTop: "3%",
-          minHeight: `100vh`,
+          height: `calc(100vh - 57px)`,
           background:
-            "url('/images/home/jhinHome.jpg')",
-          backgroundSize:"cover"
+            "url('/images/home/newBg.jpeg')",
+          backgroundSize:"cover",
+          overflowY: "auto"
         }}
       >
         {displayedItems && (
@@ -143,7 +144,7 @@ const Champions = () => {
               GUIDE
             </Button>
             <Tour className="tour-color" open={open} onClose={() => setOpen(false)} steps={steps} />
-            <Row style={{background:"white", margin:"0% 3% 3% 3%"}}>
+            <Row style={{background:"transparent", margin:"0% 3% 3% 3%"}}>
               <Col style={{padding:"0% 1%"}} className="flex-center" ref={ref1} span={3}>
                 {!searchTag?.[0]?.length &&<Input prefix={<SearchOutlined/>} placeholder="Search" onChange={handleSearch}/>}
               </Col>

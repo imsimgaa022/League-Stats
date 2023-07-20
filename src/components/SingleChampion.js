@@ -1,4 +1,4 @@
-import { Button, Carousel, Col, Progress, Row, Steps } from "antd";
+import { Button, Carousel, Col, Empty, Progress, Row, Steps } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import DOMPurify from 'dompurify';
@@ -20,6 +20,11 @@ const SingleChampion = () => {
   const skinsRef = useRef(null);
   const location = useLocation();
   const [showIcon, setShowIcon] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  const handleVideoError = () => {
+    setHasError(true);
+  };
 
 
   useEffect(() => {
@@ -72,6 +77,7 @@ const SingleChampion = () => {
 
   const handleSpellClick = (spell) => {
     setActiveSpell(spell);
+    setHasError(false);
   }
 
   const createHtml =(description) => {
@@ -128,28 +134,24 @@ const SingleChampion = () => {
     <>
       {champion && (
         <>
-          {showIcon && (<ArrowUpOutlined style={{border: "1px solid purple", borderRadius: "50%"}} onClick={handleScrollToTop} className="to-top"/>)}
+        <div style={{height: "calc(100vh - 57px)", overflowY: "auto"}}>
+          {showIcon && (<ArrowUpOutlined style={{border: "1px solid purple", borderRadius: "50%", zIndex: "1000"}} onClick={handleScrollToTop} className="to-top"/>)}
           <Row justify="center" id="intro">
           <div>
           <Button className="champ-button" onClick={() => navigate("/champions")}>Champion list</Button>
           <Button style={{top: "120px"}} className="champ-button" onClick={() => scrollToDiv("about")}>About</Button>
           <Button style={{top: "160px"}} className="champ-button" onClick={() => scrollToDiv("skins")}>Skins</Button>
           </div>
-            <div className="container-image" style={{ position: "relative" }}>
+            <div className="container-image" style={{ position: "relative", background: "black", width: "100%", flexDirection: "column" }}>
               <img
                 alt="name"
                 src={`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion[0].image?.full.replace('.png', '_0.jpg')}`}
                 className="foreground-image"
               />
-            </div>
-            <div
-              className="background-image"
-              style={{
-                background: `url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion[0].image?.full.replace('.png', '_0.jpg')}")`}}
-            ></div>
-            <div className="container michroma-font color-white" style={{position:"absolute", bottom:"0%"}}>
-              <h1 className="title">{champion?.[0]?.name}</h1>
-              <h2 className="subtitle">{champion?.[0]?.title}</h2>
+              <div className="container michroma-font color-white" style={{position: "absolute", bottom: "10%"}}>
+                <h1 style={{color: "white"}}>{champion?.[0]?.name}</h1>
+                <h2 style={{color: "white"}}>{champion?.[0]?.title}</h2>
+              </div>
             </div>
           </Row>
           <Row id="about" style={{background:"#0b1624"}} justify="center">
@@ -212,11 +214,26 @@ const SingleChampion = () => {
               </div>
               </Col>
               </Col>
-              <Col span={12} style={{padding:"5%", paddingLeft:"0%"}}>
-                <div style={{width:"100%", height:"100%"}}>
-                  <video style={{border:"1px solid gold", borderRadius:"50px 0px 50px 0px"}} muted  width={"100%"} autoPlay loop controls={false} src={`https://d28xe8vt774jo5.cloudfront.net/champion-abilities/${setKeyNumber(champion?.[0]?.key)}/ability_${setKeyNumber(champion?.[0]?.key)}_${formatAbility(activeDot)}1.webm`}/>
-                </div>
-              </Col>
+              <Col span={12} style={{ padding: "5%", paddingLeft: "0%" }}>
+                {hasError ? (
+                  <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid gold", height: "450px", borderRadius: "50px 0px" }}>
+                    <Empty className="no-video-desc" description={"No preview avaiable"} />
+                  </div>
+                ) : (
+                  <div style={{ flex: 1, height: "450px" }}>
+                    <video
+                      style={{ height: "100%", borderRadius: "50px 0px", border: "1px solid gold", objectFit: "cover" }}
+                      onError={handleVideoError}
+                      muted
+                      width="100%"
+                      autoPlay
+                      loop
+                      controls={false}
+                      src={`https://d28xe8vt774jo5.cloudfront.net/champion-abilities/${setKeyNumber(champion?.[0]?.key)}/ability_${setKeyNumber(champion?.[0]?.key)}_${formatAbility(activeDot)}1.webm`}
+                    />
+                  </div>
+                )}
+            </Col>
             </Row>
             <Row>
             </Row>
@@ -257,14 +274,14 @@ const SingleChampion = () => {
             </Row>
             )}
           </Row>
-          <Row justify="center" style={{padding:"2% 8%"}} id="skins" ref={skinsRef}>
+          <Row justify="center" style={{padding:"2% 8%", background: "black"}} id="skins" ref={skinsRef}>
             <Col span={24}>
               <Carousel autoplay beforeChange={(oldIndex, newIndex) => setActiveItemIndex(newIndex)} ref={carouselRef} slide={activeItemIndex} effect="fade" style={{width: "100%"}}>
                 {champion?.[0]?.skins?.slice(1)?.map((skin, ind) => {
                   return (
                     <>
                        <Row justify="center" key={ind}>
-                          <div className="container-image" style={{ position: "relative", height: "80vh" }}>
+                          <div className="container-image" style={{ position: "relative", height: "85vh" }}>
                             <img
                               alt="name"
                               src={`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion?.[0]?.id}_${skin?.num}.jpg`}
@@ -297,6 +314,7 @@ const SingleChampion = () => {
               </div>
             </Col>
           </Row>
+        </div>
         </>
       )}
     </>

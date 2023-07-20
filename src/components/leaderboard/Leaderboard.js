@@ -43,9 +43,10 @@ const Leaderboard = () => {
           <div
             className="home-image"
             style={{
-              minHeight: "calc(100vh - 57px)",
-              background: "url('/images/home/jhinHome.jpg')",
+              height: "calc(100vh - 57px)",
+              background: "url('/images/home/newBg.jpeg')",
               backgroundSize: "cover",
+              overflowY: "scroll"
             }}
           >
             <div >

@@ -13,6 +13,24 @@ export const GET_SUMMONER_SPELLS = "GET_SUMMONER_SPELLS";
 export const SET_SUMMONER_SPELLS = "SET_SUMMONER_SPELLS";
 export const GET_USER_LIVE_GAME = "GET_USER_LIVE_GAME";
 export const SET_USER_LIVE_GAME = "SET_USER_LIVE_GAME";
+export const LOGIN_USER = "LOGIN_USER";
+export const SET_USER = "SET_USER";
+export const REGISTER_USER = "REGISTER_USER";
+
+export const loginUser = (payload) => ({
+  type: LOGIN_USER,
+  payload: payload,
+});
+
+export const registerUser = (payload) => ({
+  type: REGISTER_USER,
+  payload: payload
+});
+
+export const setUser = (payload) => ({
+  type: SET_USER,
+  payload,
+});
 
 export const fetchAllData = (payload) => ({
   type: FETCH_ALL_DATA,

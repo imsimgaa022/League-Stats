@@ -95,10 +95,10 @@ const Welcome = () => {
   return (
     <>
       <div
-        className="home-image flex-center"
+        className="black-shadow flex-center"
         style={{
           height: "calc(100vh - 57px)",
-          background: "url('/images/home/jhinHome.jpg')",
+          background: "url('/images/home/newBg.jpeg')",
           backgroundSize: "cover",
           flexDirection:"column"
         }}
@@ -132,9 +132,9 @@ const Welcome = () => {
           <div style={{width: "100%", display: "flex", justifyContent: "center", flexWrap: "wrap"}}>
             {recentSearch?.map((item) => {
               return (
-                <Tag color={"#500050"} style={{padding: "0.5%", borderRadius: "10px", cursor: "pointer", marginBottom: "0.5%"}}>
-                  <Tag onClick={() => handleRecenSearch(item)} color={"#800080"}>{item?.region}</Tag>
-                  <b onClick={() => handleRecenSearch(item)}>{item?.summoner}</b>
+                <Tag color={"white"} style={{padding: "0.5%", borderRadius: "10px", cursor: "pointer", marginBottom: "0.5%"}}>
+                  <Tag onClick={() => handleRecenSearch(item)} color={"black"}>{item?.region}</Tag>
+                  <b style={{color:"black"}} onClick={() => handleRecenSearch(item)}>{item?.summoner}</b>
                   <CloseOutlined onClick={() => removeItem(item)} style={{paddingLeft:"3%", fontSize: "14px"}}/>
                 </Tag>
               )
