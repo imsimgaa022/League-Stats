@@ -51,6 +51,7 @@ const SummonerInfo = () => {
     data && data?.user?.name.toLowerCase() !== params?.name?.toLocaleLowerCase() && dispatch(fetchAllData(payload));
 
     data?.user?.name && setIsLoading(false);
+    
     // eslint-disable-next-line
   }, [params?.name, dispatch, data?.user?.name, params?.region]);
 
